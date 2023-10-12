@@ -1,0 +1,132 @@
+<script>
+    $('.show-password').on('click', function (e) {
+        e.preventDefault();
+        if ($('.password').attr('type') == 'password') {
+            $('.password').attr('type', 'text')
+            $('i').removeClass('fa-eye-slash').addClass('fa-eye');
+        } else if ($('.password').attr('type') == 'text') {
+            $('.password').attr('type', 'password')
+            $('i').removeClass('fa-eye').addClass('fa-eye-slash');
+        }
+    });
+
+    setTimeout(function () {
+        $("#alert").addClass("d-none")
+    }, 3000);
+
+
+    $(document).ready(function () {
+        $(".daftar").on("click", function (e) {
+            console.log($("#formPendaftaran").serialize());
+
+            $.ajax({
+                url: "/daftar",
+                method: "post",
+                type: "post",
+                data: $("#formPendaftaran").serialize(),
+                dataType: "json",
+                beforeSend: function () {
+                    $(".daftar").attr("disabled", true);
+                },
+                success: function (data) {
+                    //console.log(data);
+                    if (data.status == 200) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Successfully",
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then((res) => {
+                            window.location.href = "/dashboard";
+                            //console.log("success");
+                        });
+                    }
+                    if (data.status == 400) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Failed",
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
+                },
+                error: function (x, t, m) {
+                    const { result, status, message } = x.responseJSON;
+                    if (status != null) {
+                        if (status == 400) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Failed",
+                                text: message,
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                        }
+                    }
+                },
+                complete: function () {
+                    $(".daftar").attr("disabled", false);
+                },
+            });
+        })
+    })
+    
+
+    $(document).ready(function () {
+        $(".submit").on("click", function (e) {
+            $.ajax({
+                url: "/",
+                method: "post",
+                type: "post",
+                data: $("#formAuthentication").serialize(),
+                dataType: "json",
+                beforeSend: function () {
+                    $(".submit").attr("disabled", true);
+                },
+                success: function (data) {
+                    if (data.status == 200) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Successfully",
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then((res) => {
+                            window.location.href = "/dashboard";
+                            //console.log("success");
+                        });
+                    }
+                    if (data.status == 400) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Failed",
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
+                },
+                error: function (x, t, m) {
+                    const { result, status, message } = x.responseJSON;
+                    if (status != null) {
+                        if (status == 400) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Failed",
+                                text: message,
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                        }
+                    }
+                },
+                complete: function () {
+                    $(".submit").attr("disabled", false);
+                },
+            });
+        })
+    })
+
+</script>

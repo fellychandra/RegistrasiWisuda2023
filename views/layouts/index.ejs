@@ -1,0 +1,79 @@
+<!doctype html>
+<!--
+* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
+* @version 1.0.0-beta19
+* @link https://tabler.io
+* Copyright 2018-2023 The Tabler Authors
+* Copyright 2018-2023 codecalm.net Paweł Kuna
+* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
+-->
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <title>Registrasi Mahasiswa Wisuda PCR 2023</title>
+  <link rel="icon" type="image/x-icon" href="/assets/img/icon.ico">
+  <link href="/assets/css/tabler-payments.css" rel="stylesheet" />
+  <link href="/assets/css/tabler-vendors.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/node_modules/sweetalert2/dist/sweetalert2.css" />
+  <link rel="stylesheet" href="/node_modules/datatables/media/css/jquery.dataTables.min.css" />
+  <link href="/assets/css/demo.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/tabler.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <style>
+    @import url('https://rsms.me/inter/inter.css');
+
+    :root {
+      --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+    }
+
+    body {
+      font-feature-settings: "cv03", "cv04", "cv11";
+    }
+  </style>
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+  <script src="/assets/js/demo-theme.min.js"></script>
+  <div class="page">
+    <!-- side bar -->
+    <%- include("../layouts/partial/side.ejs")%>
+
+      <!-- Page header -->
+      <%- include("../layouts/partial/header.ejs")%>
+        <div class="page-wrapper mt-6">
+
+
+
+          <!-- Page body -->
+          <%- body%>
+
+
+            <!-- footer -->
+            <%- include("../layouts/partial/footer.ejs")%>
+
+
+        </div>
+  </div>
+
+  <!-- Libs JS -->
+  <script src="/assets/js/jquery.js"></script>
+  <script src="/assets/libs/apexcharts/dist/apexcharts.min.js" defer></script>
+  <script src="/assets/libs/jsvectormap/dist/js/jsvectormap.min.js" defer></script>
+  <script src="/assets/libs/jsvectormap/dist/maps/world.js" defer></script>
+  <script src="/assets/libs/jsvectormap/dist/maps/world-merc.js" defer></script>
+  <!-- Tabler Core -->
+  <script src="/assets/js/tabler.min.js" defer></script>
+  <script src="/assets/js/demo.min.js" defer></script>
+  <script src="https://kit.fontawesome.com/764c2859cb.js" crossorigin="anonymous"></script>
+  <script src="/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+  <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <%- script %>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<!--
+* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
+* @version 1.0.0-beta19
+* @link https://tabler.io
+* Copyright 2018-2023 The Tabler Authors
+* Copyright 2018-2023 codecalm.net Paweł Kuna
+* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
+-->
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="icon" type="image/x-icon" href="/assets/img/icon.ico">
+  <title>Login || Bengkel Anugrah</title>
+  <!-- CSS files -->
+  <link href="./assets/css/tabler.min.css" rel="stylesheet" />
+  <link href="./assets/css/tabler-flags.min.css" rel="stylesheet" />
+  <link href="./assets/css/tabler-payments.min.css" rel="stylesheet" />
+  <link href="./assets/css/tabler-vendors.min.css" rel="stylesheet" />
+  <link href="./assets/css/demo.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/node_modules/sweetalert2/dist/sweetalert2.css" />
+
+
+  <style>
+    @import url('https://rsms.me/inter/inter.css');
+
+    :root {
+      --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+    }
+
+    body {
+      font-feature-settings: "cv03", "cv04", "cv11";
+    }
+  </style>
+</head>
+
+<body class=" d-flex flex-column bg-white">
+  <script src="./assets/js/demo-theme.min.js"></script>
+  <div class="row g-0 flex-fill">
+    <div class="col-12 col-lg-6 col-xl-4 border-top-wide border-primary d-flex flex-column justify-content-center">
+      <div class="container container-tight my-5 px-lg-5">
+        <div class="text-center mb-4">
+          <a href="." class="navbar-brand navbar-brand-autodark"><img src="./assets/img/PCR.png" height="36" alt=""></a>
+        </div>
+        <h2 class="h3 text-center mb-3">
+          Create your account
+        </h2>
+        <%- include('../utils/session.ejs') %>
+        <form action="#" method="POST" id="formPendaftaran" autocomplete="off" novalidate>
+          <div class="mb-3">
+            <label class="form-label">Nama</label>
+            <input type="name" id="name" class="form-control" name="name" placeholder="Nama" autofocus>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" name="email" placeholder="Email" autofocus>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="username" id="username" class="form-control" name="username" placeholder="Username" autofocus>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">
+              Password
+            </label>
+            <div class="input-group input-group-flat form-password-toggle">
+              <input type="password" id="password" class="form-control password" name="password"
+                placeholder="Your password" aria-describedby="password">
+              <span class="input-group-text show-password">
+                <i class="fa fa-light fa-eye-slash"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <button type="submit" id="" style="background-color: #203E5F;"
+              class="daftar btn btn-primary w-100">Daftar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
+      <div class="bg-cover h-100 min-vh-100"
+        style="background-image: url(./assets/img/PCRBanner.jpg)">
+      </div>
+    </div>
+  </div>
+  <script src="/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
+  <script src="./assets/js/tabler.min.js" defer></script>
+  <script src="./assets/js/demo.min.js" defer></script>
+  <script src="https://kit.fontawesome.com/764c2859cb.js" crossorigin="anonymous"></script>
+  <script src="./assets/libs/jquery/jquery.js"></script>
+  <script src="/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+  <%- include('./scripts/loginScript.ejs')%>
+</body>
+
+</html>

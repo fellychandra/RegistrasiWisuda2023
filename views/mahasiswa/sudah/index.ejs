@@ -1,0 +1,87 @@
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row">
+            <div class="col-xl">
+                <div class="page-pretitle text-capitalize mb-2">
+                    <%= currentUrl %>
+                </div>
+                <h3 class="text-muted">Daftar <%- title %></h3>
+                <div class="nav-align-top mb-4">
+                    <%-include('../tabDaftar.ejs');%>
+                        <div class="tab-content">
+                            <div class="tab-panel fade show active" id="navs-top-home" role="tabpanel">
+                                <div class="card">
+                                    <div class="row card-header">
+                                        <div class="col">
+                                            <h2 class="">Tabel <%- title %></h4>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="text-nowrap">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label">Nama</label>
+                                                    <input type="text" name="nama" id="filter_nama" class="form-control filter filter_nama">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label">NIM</label>
+                                                    <input type="text" name="nim" id="filter_nim" class="form-control filter filter_nim">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="" class="form-label">Program Studi</label>
+                                                    <select name="jurusan" id="filter_jurusan" class="form-select filter filter_jurusan" style="width: 100%;">
+                                                        <option value="">-- Pilih --</option>
+                                                        <option value="D3 - Teknik Elektronika">D3 - Teknik Elektronika</option>
+                                                        <option value="D3 - Teknik Mekatronika">D3 - Teknik Mekatronika</option>
+                                                        <option value="D3 - Teknik Komputer">D3 - Teknik Komputer</option>
+                                                        <option value="D4 - Akuntansi Perpajakan">D4 - Akuntansi Perpajakan</option>
+                                                        <option value="D4 - Sistem Informasi">D4 - Sistem Informasi</option>
+                                                        <option value="D4 - Teknik Elektronika Telekomunikasi">D4 - Teknik Elektronika Telekomunikasi</option>
+                                                        <option value="D4 - Teknik Informatika">D4 - Teknik Informatika</option>
+                                                        <option value="D4 - Teknik Listrik">D4 - Teknik Listrik</option>
+                                                        <option value="D4 - Teknologi Rekayasa Jaringan Telekomunikasi">D4 - Teknologi Rekayasa Jaringan Telekomunikasi</option>
+                                                        <option value="D4 - Teknik Mesin">D4 - Teknik Mesin</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <hr class="hr" style="margin: 1%;"/>
+                                            <table class="table table-hover" id="dataTableMhsSudahRegis">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>NIM</th>
+                                                        <th>Nama</th>
+                                                        <th>Program Studi</th>
+                                                        <th>No Ijazah</th>
+                                                        <th>No Kursi</th>
+                                                        <th>Status</th>
+                                                        <th>Registrasi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            1.
+                                                        </td>
+                                                        <td>Felly Chandra</td>
+                                                        <td>2055301050</td>
+                                                        <td>Teknik Informatika</td>
+                                                        <td>No Kursi</td>
+                                                        <td>felly20ti@mahasiswa.pcr.ac.id</td>
+                                                        <td>True</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include('./script/mhsSudahScript.ejs'); %>

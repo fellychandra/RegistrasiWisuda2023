@@ -1,0 +1,42 @@
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row">
+            <div class="col-xl">
+                <div class="page-pretitle text-capitalize mb-2">
+                    <%= currentUrl %>
+                </div>
+                <div class="nav-align-top mb-4">
+                    <div class="tab-content">
+                        <div class="tab-panel fade show active" id="navs-top-home" role="tabpanel">
+                            <div class="card">
+                                <div class="row card-header">
+                                    <div class="col">
+                                        <h2 class=""><%- title %></h4>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <form action="/import/mahasiswa" method="POST" enctype="multipart/form-data">
+                                            <div class="row">
+                                                <div class="col-12 mb-3">
+                                                    <div class="form-label">Pilih File Input</div>
+                                                    <input type="file" name="xlsx" class="form-control" accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel' >
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <button type="submit" class="btn btn-success">Unggah</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
