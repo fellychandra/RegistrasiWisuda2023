@@ -187,14 +187,14 @@
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-  background: #696cff;
+  background: #1d60b0;
   color: #fff !important;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current,
 .dataTables_wrapper .dataTables_paginate .paginate_button.current:focus,
 .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-  background: #696cff;
+  background: #1d60b0;
   color: #fff !important;
 }
 
