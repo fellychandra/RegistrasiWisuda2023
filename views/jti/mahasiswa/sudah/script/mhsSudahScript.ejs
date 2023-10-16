@@ -1,0 +1,106 @@
+<script>
+    $(document).ready(function () {
+        let filterNama = $("#filter_nama").val(), filterNim = $("#filter_nim").val(), filterJurusan = $("#filter_jurusan").val();
+
+        var table = $('#dataTableMhsSudahRegis').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "/jti/mahasiswa/sudah",
+                type: "get",
+                dataType: "json",
+                data: function (d) {
+                    d.filterNama = filterNama,
+                        d.filterNim = filterNim,
+                        d.filterJurusan = filterJurusan
+                    return d
+                }
+            },
+            colReorder: {
+                realtime: true,
+            },
+            order: [[1, "asc"]],
+            columnDefs: [
+                { name: "no", targets: 0, orderable: false },
+                { name: "NIM", targets: 1 },
+                { name: "Nama", targets: 2 },
+                { name: "Jurusan", targets: 3 },
+                { name: "No_Ijazah", targets: 4 },
+                { name: "No_Kursi", targets: 5 },
+                { name: "Registrasi", targets: 6 },
+                { name: "action_Registrasi", targets: 6, orderable: false },
+            ],
+            columns: [{ data: "no" }, { data: "nim" }, { data: "name" }, { data: "jurusan" }, { data: "noIjazah" },{ data: "noKursi" }, { data: "isRegis" }, { data: "Regis" }],
+        });
+
+        $(".filter").on("change", function () {
+            filterNama = $("#filter_nama").val();
+            filterNim = $("#filter_nim").val();
+            filterJurusan = $("#filter_jurusan").val();
+
+            table.ajax.reload(null, false);
+        })
+
+        $(document).on("click", ".btn-isRegis", function (e) {
+            e.preventDefault();
+            let id = $(this).data("id");
+            console.log(id);
+            Swal.fire({
+                title: "Registrasi",
+                text: "Yakin melakukan batal registrasi?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, Batalkan Registrasi!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/mahasiswa/sudah",
+                        dataType: "json",
+                        method: "PUT",
+                        data: { id: id },
+                        dataType: "json",
+                        beforeSend: function () {
+                            Swal.disableButtons();
+                        },
+                        success: function (data) {
+                            if (data.status == 200) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Berhasil",
+                                    text: data.message,
+                                    showConfirmButton: false,
+                                    timer: 500,
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Gagal",
+                                    text: data.message,
+                                    showConfirmButton: false,
+                                    timer: 500,
+                                });
+                            }
+                            table.ajax.reload();
+                        },
+                        error: function (x, t, m) {
+                            console.log(x.responseText);
+                        }
+                    });
+                }
+            });
+        });
+
+    });
+
+    $(document).ready(function () {
+        $('.filter_jurusan').select2();
+    });
+
+    function resetForm() {
+        $(`.form-control`).val("");
+        $(`.form-select`).val("")
+    }
+
+</script>

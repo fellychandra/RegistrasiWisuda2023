@@ -16,6 +16,9 @@ const MahasiswaSchema = new mongoose.Schema(
             type: String,
             unique: true,
         },
+        prodi: {
+            type: String,
+        },
         jurusan: {
             type: String,
         },

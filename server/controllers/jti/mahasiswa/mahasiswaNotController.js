@@ -1,4 +1,4 @@
-const mahasiswaModel = require('../../models/mahasiswa');
+const mahasiswaModel = require('../../../models/mahasiswa');
 
 const index = async (req, res) => {
     url = req.originalUrl.toString()
@@ -155,7 +155,7 @@ const index = async (req, res) => {
             return res.status(200).json(output);
         }
 
-        res.render("mahasiswa/belum/index", {
+        res.render("jti/mahasiswa/belum/index", {
             title: "Belum Regis",
             currentUrl: url,
         });
@@ -169,10 +169,10 @@ const index = async (req, res) => {
 };
 
 const store = async (req, res) => {
-    const { nama, nim, prodi,jurusan, noIjazah, noKursi } = req.body;
+    const { nama, nim, jurusan, noIjazah, noKursi } = req.body;
 
     try {
-        const Mahasiswa = await mahasiswaModel.create({ name: nama, nim: nim, prodi: prodi, jurusan: jurusan, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id })
+        const Mahasiswa = await mahasiswaModel.create({ name: nama, nim: nim, jurusan: jurusan, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id })
         res.status(201).json({
             status: 200,
             message: "Berhasil Menambahkan Mahasiswa",

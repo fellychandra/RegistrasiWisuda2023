@@ -16,6 +16,8 @@ const dashboardRouter = require('./server/routes/dashboard/dashboard');
 const mahasiswaRouter = require('./server/routes/mahasiswa/mahasiswa');
 const orangtuaRouter = require('./server/routes/orangtua/orangtua');
 const importwisudawan = require('./server/routes/import/importwisudawan');
+const jtinRouter = require('./server/routes/jtin/jtin');
+const jtiRouter = require('./server/routes/jti/jti');
 
 
 const { isLogin, webProtect } = require("./server/middleware");
@@ -57,6 +59,8 @@ app.use('/', isLogin, loginRouter);
 app.use('/dashboard', webProtect, dashboardRouter);
 app.use('/mahasiswa', webProtect, mahasiswaRouter);
 app.use('/orangtua', webProtect, orangtuaRouter);
+app.use('/jti', webProtect, jtiRouter);
+app.use('/jtin', webProtect, jtinRouter);
 app.use('/import', webProtect, importwisudawan);
 
 

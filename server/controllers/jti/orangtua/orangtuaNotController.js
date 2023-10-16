@@ -1,4 +1,4 @@
-const mahasiswaModel = require('../../models/mahasiswa');
+const orangtuaModel = require('../../models/orangtua');
 
 const index = async (req, res) => {
     url = req.originalUrl.toString()
@@ -35,8 +35,7 @@ const index = async (req, res) => {
             // jika ada pencarian data
             let whereQuery = {
                 isDeleted: false,
-                isRegis: false,
-                prodi: "JTI"
+                isRegis: false
             };
 
             if (filterNama) {
@@ -62,33 +61,20 @@ const index = async (req, res) => {
             let sortDir = dir === "asc" ? 1 : -1;
             let sortColumn = orderColumn[indexColumn];
 
-
-            if (sortColumn === "noKursi") {
-                sortColumn = "noKursi"; // Jangan gunakan sortColumn
-            }
-
-            let result = await mahasiswaModel.aggregate([
+            // result
+            let result = await orangtuaModel.aggregate([
                 {
                     $match: {
                         ...whereQuery,
                     },
                 },
-                {
-                    $addFields: {
-                        angkaPart: {
-                            $toInt: {
-                                $arrayElemAt: [{ $split: ["$noKursi", "."] }, 1],
-                            },
-                        },
-                    },
-                },
-                { $sort: { noKursi: sortDir, angkaPart: sortDir } }, // Lakukan pengurutan
                 { $skip: parseInt(start) },
                 { $limit: parseInt(length) },
+                { $sort: { [sortColumn]: sortDir } },
             ]);
 
             // count all data
-            let countDocuments = await mahasiswaModel.aggregate([
+            let countDocuments = await orangtuaModel.aggregate([
                 {
                     $match: {
                         isDeleted: false,
@@ -119,21 +105,21 @@ const index = async (req, res) => {
                 `;
 
                 let button = `
-                    <div class="dropdown">
-                        <button type="button"
-                            class="btn btn-sm btn-outline-primary p-1 px-3 dropdown-toggle"
-                            data-bs-toggle="dropdown">
-                            Pilih Aksi
-                        </button>
-                        <div class="dropdown-menu">
-                            <button data-bs-toggle="modal"
-                            data-bs-target="#modalMhsTambah" class="dropdown-item btn-edit" data-id="${v._id}"><i
-                                    class="fa fa-pencil pe-2"></i>Edit</button>
-                            
-                            <button class="btn-delete dropdown-item" data-id="${v._id}">
-                                <i class="fa fa-trash pe-2"></i>Hapus</button>
-                        </div>
+                <div class="dropdown">
+                    <button type="button"
+                        class="btn btn-sm btn-outline-primary p-1 px-3 dropdown-toggle"
+                        data-bs-toggle="dropdown">
+                        Pilih Aksi
+                    </button>
+                    <div class="dropdown-menu">
+                        <button data-bs-toggle="modal"
+                        data-bs-target="#modalOrtuTambah" class="dropdown-item btn-edit" data-id="${v._id}"><i
+                                class="fa fa-pencil pe-2"></i>Edit</button>
+                        
+                        <button class="btn-delete dropdown-item" data-id="${v._id}">
+                            <i class="fa fa-trash pe-2"></i>Hapus</button>
                     </div>
+                </div>
                 `;
                 pushResult.push({
                     no: number,
@@ -155,7 +141,7 @@ const index = async (req, res) => {
             return res.status(200).json(output);
         }
 
-        res.render("mahasiswa/belum/index", {
+        res.render("orangtua/belum/index", {
             title: "Belum Regis",
             currentUrl: url,
         });
@@ -169,13 +155,15 @@ const index = async (req, res) => {
 };
 
 const store = async (req, res) => {
-    const { nama, nim, prodi,jurusan, noIjazah, noKursi } = req.body;
+    const { nama, nim, jurusan, noIjazah, noKursi } = req.body;
 
     try {
-        const Mahasiswa = await mahasiswaModel.create({ name: nama, nim: nim, prodi: prodi, jurusan: jurusan, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id })
+        const orangtua = await orangtuaModel.create({
+            name: nama, nim: nim, jurusan: jurusan, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id
+        })
         res.status(201).json({
             status: 200,
-            message: "Berhasil Menambahkan Mahasiswa",
+            message: "Berhasil Menambahkan orangtua",
         })
     } catch (error) {
         console.log(error);
@@ -190,7 +178,7 @@ const update = async (req, res) => {
     const { id } = req.body;
 
     try {
-        const Mahasiswa = await mahasiswaModel.updateOne(
+        const orangtua = await orangtuaModel.updateOne(
             { _id: id },
             {
                 isRegis: true,
@@ -199,7 +187,7 @@ const update = async (req, res) => {
         );
         res.status(200).json({
             status: 200,
-            message: "Berhasil Meregistrasi Mahasiswa",
+            message: "Berhasil Meregistrasi Orang Tua",
         })
     } catch (error) {
         return res.status(400).json({
@@ -212,11 +200,11 @@ const update = async (req, res) => {
 const findOne = async (req, res) => {
     const { id } = req.params
     try {
-        let mahasiswa = await mahasiswaModel.findOne({ _id: id })
+        let orangtua = await orangtuaModel.findOne({ _id: id })
         return res.status(200).json({
             status: 200,
-            message: "Berhasil Mendapatkan barang",
-            result: mahasiswa
+            message: "Berhasil Mendapatkan Data",
+            result: orangtua
         })
 
     } catch (error) {
@@ -231,7 +219,7 @@ const findOne = async (req, res) => {
 const updateData = async (req, res) => {
     const { id, nim, nama, jurusan, noIjazah, noKursi } = req.body
     try {
-        const Mahasiswa = await mahasiswaModel.updateOne(
+        const orangtua = await orangtuaModel.updateOne(
             { _id: id },
             {
                 nim: nim,
@@ -257,7 +245,7 @@ const updateData = async (req, res) => {
 const deleteData = async (req, res) => {
     try {
         const { id } = req.body;
-        let getData = await mahasiswaModel.findByIdAndDelete({
+        let getData = await orangtuaModel.findByIdAndDelete({
             _id: id,
         });
 

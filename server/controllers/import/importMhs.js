@@ -6,11 +6,21 @@ const index = async (req, res) => {
     url = req.originalUrl.toString()
     try {
         const workbook = xlsx.readFile(`./public/mhs/${req.modifiedFileName}`)
-        const sheetName = workbook.SheetNames[0]; // Mengambil nama sheet pertama
+        const sheetName = workbook.SheetNames[0];
         const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
         data.forEach(async (item) => {
-            const mahasiswa = new mahasiswaModel({ nim: item.NIM, name: item.Nama, nik: item.NIK, noIjazah: item.Nomor_Ijazah, jurusan: item.Program_Studi, ipk: item.IPK, noKursi:item.No_kursi }); // Pastikan model Anda cocok
+            const inputSeatNumber = item.No_kursi;
+            let formattedSeatNumber;
+            if (inputSeatNumber && inputSeatNumber.includes('.')) {
+                const [letterPart, numberPart] = inputSeatNumber.split('.');
+                const formattedNumberPart = String(numberPart).padStart(3, '0');
+                formattedSeatNumber = letterPart + '.' + formattedNumberPart;
+            } else {
+                console.error('Nomor kursi tidak valid.');
+            }
+
+            const mahasiswa = new mahasiswaModel({ nim: item.NIM, name: item.Nama, nik: item.NIK, noIjazah: item.Nomor_Ijazah, jurusan: item.Program_Studi, ipk: item.IPK, noKursi: formattedSeatNumber }); // Pastikan model Anda cocok
             try {
                 await mahasiswa.save();
                 console.log(`Data mahasiswa ${mahasiswa.name} berhasil disimpan.`);
