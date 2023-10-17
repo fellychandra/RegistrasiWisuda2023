@@ -11,10 +11,10 @@ router.route('/')
 
 router.route('/mahasiswa')
     .get(mahasiswaNotJtin.index)
-    .post(mahasiswaNotJtin.store)
-    .put(mahasiswaNotJtin.update)
-    .patch(mahasiswaNotJtin.updateData)
-    .delete(mahasiswaNotJtin.deleteData)
+// .post(mahasiswaNotJtin.store)
+// .put(mahasiswaNotJtin.update)
+// .patch(mahasiswaNotJtin.updateData)
+// .delete(mahasiswaNotJtin.deleteData)
 
 router.route('/mahasiswa/belum')
     .get(mahasiswaNotJtin.index)
@@ -32,8 +32,8 @@ router.route('/mahasiswa/sudah')
 router.route('/sudah')
     .get(mahasiswaDoneJtin.index)
     .put(mahasiswaDoneJtin.update)
-router.route('/sudah')
-    .get(mahasiswaDoneJtin.index)
-    .put(mahasiswaDoneJtin.update)
+
+router.route('/pdf')
+    .get(mahasiswaNotJtin.pdf)
 
 module.exports = router;

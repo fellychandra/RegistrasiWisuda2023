@@ -4,26 +4,34 @@ const index = async (req, res) => {
     url = req.originalUrl.toString()
     try {
         if (req.xhr) {
-            const { draw, order, start, length, search, filterNama, filterNim, filterJurusan } = req.query;
+            const { draw, order, start, length, search, filterNama, filterNim, filterProdi } = req.query;
 
             let pushWhere = [];
             if (search && search.value !== "") {
                 const regexSearch = new RegExp(search.value, "i");
+
                 pushWhere = [
                     {
-                        name: regexSearch,
+                        nim: regexSearch,
                     },
                     {
-                        nim: regexSearch,
+                        name: regexSearch,
                     },
                     {
                         jurusan: regexSearch,
                     },
                     {
+                        prodi: regexSearch,
+                    },
+                    {
                         noKursi: regexSearch
+                    },
+                    {
+                        noIjazah: regexSearch,
                     },
                 ];
             }
+
 
 
             // jika ada pencarian data
@@ -41,8 +49,8 @@ const index = async (req, res) => {
                 whereQuery.nim = { $regex: new RegExp(filterNim, "i") };
             }
 
-            if (filterJurusan) {
-                whereQuery.jurusan = { $regex: new RegExp(filterJurusan, "i") };
+            if (filterProdi) {
+                whereQuery.prodi = { $regex: new RegExp(filterProdi, "i") };
             }
 
             if (pushWhere.length > 0) {
@@ -50,11 +58,15 @@ const index = async (req, res) => {
             }
 
             // order column
-            let orderColumn = ["", "nim", "name", "jurusan", "noIjazah", "noKursi", "isRegis"];
+            let orderColumn = ["", "nim", "name", "jurusan", "prodi", "noIjazah", "noKursi", "isRegis"];
             let indexColumn = parseInt(order[0].column);
             let dir = order[0].dir;
             let sortDir = dir === "asc" ? 1 : -1;
             let sortColumn = orderColumn[indexColumn];
+
+            if (sortColumn === "noKursi") {
+                sortColumn = "noKursi"; // Jangan gunakan sortColumn
+            }
 
             // result
             let result = await mahasiswaModel.aggregate([
@@ -63,9 +75,18 @@ const index = async (req, res) => {
                         ...whereQuery,
                     },
                 },
+                {
+                    $addFields: {
+                        angkaPart: {
+                            $toInt: {
+                                $arrayElemAt: [{ $split: ["$noKursi", "."] }, 1],
+                            },
+                        },
+                    },
+                },
+                { $sort: { noKursi: sortDir, angkaPart: sortDir } }, // Lakukan pengurutan
                 { $skip: parseInt(start) },
                 { $limit: parseInt(length) },
-                { $sort: { [sortColumn]: sortDir } },
             ]);
 
             // count all data
@@ -104,6 +125,7 @@ const index = async (req, res) => {
                     nim: v.nim,
                     name: v.name,
                     jurusan: v.jurusan,
+                    prodi: v.prodi,
                     noIjazah: v.noIjazah,
                     noKursi: v.noKursi,
                     isRegis: status,

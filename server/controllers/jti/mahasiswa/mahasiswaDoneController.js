@@ -4,7 +4,7 @@ const index = async (req, res) => {
     url = req.originalUrl.toString()
     try {
         if (req.xhr) {
-            const { draw, order, start, length, search, filterNama, filterNim, filterJurusan } = req.query;
+            const { draw, order, start, length, search, filterNama, filterNim, filterProdi } = req.query;
 
             let pushWhere = [];
             if (search && search.value !== "") {
@@ -20,6 +20,9 @@ const index = async (req, res) => {
                         jurusan: regexSearch,
                     },
                     {
+                        prodi: regexSearch,
+                    },
+                    {
                         noKursi: regexSearch
                     },
                 ];
@@ -30,7 +33,7 @@ const index = async (req, res) => {
             let whereQuery = {
                 isDeleted: false,
                 isRegis: true,
-                prodi: "JTI"
+                jurusan: "JTI"
             };
 
 
@@ -42,8 +45,8 @@ const index = async (req, res) => {
                 whereQuery.nim = { $regex: new RegExp(filterNim, "i") };
             }
 
-            if (filterJurusan) {
-                whereQuery.jurusan = { $regex: new RegExp(filterJurusan, "i") };
+            if (filterProdi) {
+                whereQuery.prodi = { $regex: new RegExp(filterProdi, "i") };
             }
 
             if (pushWhere.length > 0) {
@@ -51,7 +54,7 @@ const index = async (req, res) => {
             }
 
             // order column
-            let orderColumn = ["", "nim", "name", "jurusan", "noIjazah", "noKursi", "isRegis"];
+            let orderColumn = ["", "nim", "name", "jurusan", "prodi", "noIjazah", "noKursi", "isRegis"];
             let indexColumn = parseInt(order[0].column);
             let dir = order[0].dir;
             let sortDir = dir === "asc" ? 1 : -1;
@@ -99,12 +102,13 @@ const index = async (req, res) => {
                     <span class="badge ${v.isRegis ? 'bg-success' : 'bg-danger'} m-1">Sudah Registrasi</span>
                 </div>
                 `;
-
+                
                 pushResult.push({
                     no: number,
                     nim: v.nim,
                     name: v.name,
                     jurusan: v.jurusan,
+                    prodi: v.prodi,
                     noIjazah: v.noIjazah,
                     noKursi: v.noKursi,
                     isRegis: status,
@@ -115,12 +119,12 @@ const index = async (req, res) => {
 
             output.data = pushResult;
 
-
+            console.log(output);
             return res.status(200).json(output);
         }
 
         res.render("jti/mahasiswa/sudah/index", {
-            title: "Sudah Regis",
+            title: "JTI",
             currentUrl: url,
         });
     } catch (error) {

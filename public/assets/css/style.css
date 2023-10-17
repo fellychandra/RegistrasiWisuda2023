@@ -244,6 +244,9 @@
   height: 34px !important;
 }
 
+.nav-link.active{
+  font-weight: bold;
+}
 /* .scroll-value{
   max-height:250px; overflow-y: auto;
 } */

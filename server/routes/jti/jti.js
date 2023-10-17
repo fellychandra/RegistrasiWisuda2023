@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const mahasiswaNotJti = require('../../controllers/jti/mahasiswa/mahasiswaNotController');
-const mahasiswaDoneJtin = require('../../controllers/jti/mahasiswa/mahasiswaDoneController');
+const mahasiswaDoneJti = require('../../controllers/jti/mahasiswa/mahasiswaDoneController');
 // const { validation } = require('./validationBarang');
 
 
@@ -11,10 +11,10 @@ router.route('/')
 
 router.route('/mahasiswa')
     .get(mahasiswaNotJti.index)
-    .post(mahasiswaNotJti.store)
-    .put(mahasiswaNotJti.update)
-    .patch(mahasiswaNotJti.updateData)
-    .delete(mahasiswaNotJti.deleteData)
+// .post(mahasiswaNotJti.store)
+// .put(mahasiswaNotJti.update)
+// .patch(mahasiswaNotJti.updateData)
+// .delete(mahasiswaNotJti.deleteData)
 
 router.route('/mahasiswa/belum')
     .get(mahasiswaNotJti.index)
@@ -26,14 +26,11 @@ router.route('/mahasiswa/belum')
 router.route('/belum/:id')
     .get(mahasiswaNotJti.findOne)
 
-router.route('/mahasiswa/sudah')
-    .get(mahasiswaDoneJtin.index)
-    
 router.route('/sudah')
-    .get(mahasiswaDoneJtin.index)
-    .put(mahasiswaDoneJtin.update)
-router.route('/sudah')
-    .get(mahasiswaDoneJtin.index)
-    .put(mahasiswaDoneJtin.update)
+    .get(mahasiswaDoneJti.index)
+    .put(mahasiswaDoneJti.update)
+
+router.route('/pdf')
+    .get(mahasiswaNotJti.pdf)
 
 module.exports = router;

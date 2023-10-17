@@ -2,11 +2,11 @@
     $(document).ready(function () {
         let filterNama = $("#filter_nama").val(), filterNim = $("#filter_nim").val(), filterProdi = $("#filter_prodi").val();
 
-        var table = $('#dataTableMhsJtinSudahRegis').DataTable({
+        var table = $('#dataTableMhsAktpSudahRegis').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
-                url: "/jtin/sudah",
+                url: "/aktp/sudah",
                 type: "get",
                 dataType: "json",
                 data: function (d) {
@@ -41,7 +41,7 @@
             table.ajax.reload(null, false);
         })
 
-        $(document).on("click", ".btn-isRegis", function (e) {
+        $(document).on("click", ".btn-isRegis-done", function (e) {
             e.preventDefault();
             let id = $(this).data("id");
             console.log(id);

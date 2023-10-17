@@ -29,12 +29,11 @@ const index = async (req, res) => {
             }
 
 
-
             // jika ada pencarian data
             let whereQuery = {
                 isDeleted: false,
                 isRegis: true,
-                jurusan: "JTIN"
+                jurusan: "AKTP"
             };
 
 
@@ -60,6 +59,10 @@ const index = async (req, res) => {
             let dir = order[0].dir;
             let sortDir = dir === "asc" ? 1 : -1;
             let sortColumn = orderColumn[indexColumn];
+
+            if (sortColumn === "noKursi") {
+                sortColumn = "noKursi"; // Jangan gunakan sortColumn
+            }
 
             // result
             let result = await mahasiswaModel.aggregate([
@@ -95,7 +98,7 @@ const index = async (req, res) => {
             let pushResult = [];
             let number = parseInt(start) + 1;
             result.forEach((v, i) => {
-                let isMhsRegis = `<button class="btn btn-success mx-1 btn-isRegis" type="button" data-bs-toggle="modal" data-id="${v._id}" data-bs-target="#isRegisConfirm">
+                let isMhsRegis = `<button class="btn btn-success mx-1 btn-isRegis-done" type="button" data-bs-toggle="modal" data-id="${v._id}" data-bs-target="#isRegisConfirm">
                 <i class="fa fa-check"></i></button>`;
 
                 let status = `
@@ -119,13 +122,11 @@ const index = async (req, res) => {
             });
 
             output.data = pushResult;
-
-
             return res.status(200).json(output);
         }
 
-        res.render("jtin/mahasiswa/sudah/index", {
-            title: "JTIN",
+        res.render("aktp/mahasiswa/sudah/index", {
+            title: "AKTP",
             currentUrl: url,
         });
     } catch (error) {
@@ -160,9 +161,36 @@ const update = async (req, res) => {
     }
 }
 
+// const pdf = async (req, res) => {
+//     const doc = new PDFDocument();
+//     res.setHeader('Content-Type', 'application/pdf');
+//     res.setHeader('Content-Disposition', 'inline; filename="example.pdf"');
+
+//     // Tambahkan isi PDF
+//     doc.pipe(res);
+//     doc.text('Hello, this is a sample PDF document.');
+//     doc.end();
+
+//     // Cetak PDF
+//     const browser = await puppeteer.launch();
+//     const page = await browser.newPage();
+//     const pdfBuffer = await page.pdf({
+//         path: 'example.pdf',
+//         format: 'A4',
+//         printBackground: true,
+//     });
+//     await browser.close();
+
+//     // Kembalikan PDF ke browser
+//     res.setHeader('Content-Type', 'application/pdf');
+//     res.setHeader('Content-Disposition', 'inline; filename="example.pdf"');
+//     res.send(pdfBuffer);
+// }
+
 
 module.exports = {
     index,
     update,
+    //pdf,
 
 };

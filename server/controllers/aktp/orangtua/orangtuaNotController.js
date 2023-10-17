@@ -1,12 +1,10 @@
-const fs = require('fs');
-const PDFDocument = require("pdfkit-table");
-const mahasiswaModel = require('../../../models/mahasiswa');
+const orangtuaModel = require('../../models/orangtua');
 
 const index = async (req, res) => {
     url = req.originalUrl.toString()
     try {
         if (req.xhr) {
-            const { draw, order, start, length, search, filterNama, filterNim, filterProdi } = req.query;
+            const { draw, order, start, length, search, filterNama, filterNim, filterJurusan } = req.query;
 
             console.log(req.query);
 
@@ -25,9 +23,6 @@ const index = async (req, res) => {
                         jurusan: regexSearch,
                     },
                     {
-                        prodi: regexSearch,
-                    },
-                    {
                         noKursi: regexSearch
                     },
                     {
@@ -40,8 +35,7 @@ const index = async (req, res) => {
             // jika ada pencarian data
             let whereQuery = {
                 isDeleted: false,
-                isRegis: false,
-                jurusan: "JTI"
+                isRegis: false
             };
 
             if (filterNama) {
@@ -52,8 +46,8 @@ const index = async (req, res) => {
                 whereQuery.nim = { $regex: new RegExp(filterNim, "i") };
             }
 
-            if (filterProdi) {
-                whereQuery.prodi = { $regex: new RegExp(filterProdi, "i") };
+            if (filterJurusan) {
+                whereQuery.jurusan = { $regex: new RegExp(filterJurusan, "i") };
             }
 
             if (pushWhere.length > 0) {
@@ -61,42 +55,30 @@ const index = async (req, res) => {
             }
 
             // order column
-            let orderColumn = ["", "nim", "name", "jurusan", "prodi", "noIjazah", "noKursi", "isRegis"];
+            let orderColumn = ["", "nim", "name", "jurusan", "noIjazah", "noKursi", "isRegis"];
             let indexColumn = parseInt(order[0].column);
             let dir = order[0].dir;
             let sortDir = dir === "asc" ? 1 : -1;
             let sortColumn = orderColumn[indexColumn];
 
-
-            if (sortColumn === "noKursi") {
-                sortColumn = "noKursi"; // Jangan gunakan sortColumn
-            }
-
-            let result = await mahasiswaModel.aggregate([
+            // result
+            let result = await orangtuaModel.aggregate([
                 {
                     $match: {
                         ...whereQuery,
                     },
                 },
-                {
-                    $addFields: {
-                        angkaPart: {
-                            $toInt: {
-                                $arrayElemAt: [{ $split: ["$noKursi", "."] }, 1],
-                            },
-                        },
-                    },
-                },
-                { $sort: { noKursi: sortDir, angkaPart: sortDir } }, // Lakukan pengurutan
                 { $skip: parseInt(start) },
                 { $limit: parseInt(length) },
+                { $sort: { [sortColumn]: sortDir } },
             ]);
 
             // count all data
-            let countDocuments = await mahasiswaModel.aggregate([
+            let countDocuments = await orangtuaModel.aggregate([
                 {
                     $match: {
-                        ...whereQuery,
+                        isDeleted: false,
+                        isRegis: false
                     },
                 },
             ]);
@@ -113,41 +95,40 @@ const index = async (req, res) => {
             let pushResult = [];
             let number = parseInt(start) + 1;
             result.forEach((v, i) => {
-                let isMhsRegis = `<button class="btn btn-outline-danger mx-1 btn-isRegis" type="button" data-bs-toggle="modal" data-id="${v._id}" data-bs-target="#isRegisConfirm">
+                let isMhsRegis = `<button class="btn btn-outline-success mx-1 btn-isRegis" type="button" data-bs-toggle="modal" data-id="${v._id}" data-bs-target="#isRegisConfirm">
                 <i class="fa fa-check"></i></button>`;
 
-                // let status = `
-                // <div class="d-grid justify-content-start ">
-                //     <span class="badge ${v.isRegis ? 'bg-success' : 'bg-danger'} m-1">Belum Registrasi</span>
-                // </div>
-                // `;
+                let status = `
+                <div class="d-grid justify-content-start ">
+                    <span class="badge ${v.isRegis ? 'bg-success' : 'bg-danger'} m-1">Belum Registrasi</span>
+                </div>
+                `;
 
                 let button = `
-                    <div class="dropdown">
-                        <button type="button"
-                            class="btn btn-sm btn-outline-primary p-1 px-3 dropdown-toggle"
-                            data-bs-toggle="dropdown">
-                            Pilih Aksi
-                        </button>
-                        <div class="dropdown-menu">
-                            <button data-bs-toggle="modal"
-                            data-bs-target="#modalMhsTambah" class="dropdown-item btn-edit" data-id="${v._id}"><i
-                                    class="fa fa-pencil pe-2"></i>Edit</button>
-                            
-                            <button class="btn-delete dropdown-item" data-id="${v._id}">
-                                <i class="fa fa-trash pe-2"></i>Hapus</button>
-                        </div>
+                <div class="dropdown">
+                    <button type="button"
+                        class="btn btn-sm btn-outline-primary p-1 px-3 dropdown-toggle"
+                        data-bs-toggle="dropdown">
+                        Pilih Aksi
+                    </button>
+                    <div class="dropdown-menu">
+                        <button data-bs-toggle="modal"
+                        data-bs-target="#modalOrtuTambah" class="dropdown-item btn-edit" data-id="${v._id}"><i
+                                class="fa fa-pencil pe-2"></i>Edit</button>
+                        
+                        <button class="btn-delete dropdown-item" data-id="${v._id}">
+                            <i class="fa fa-trash pe-2"></i>Hapus</button>
                     </div>
+                </div>
                 `;
                 pushResult.push({
                     no: number,
                     nim: v.nim,
                     name: v.name,
                     jurusan: v.jurusan,
-                    prodi: v.prodi,
                     noIjazah: v.noIjazah,
                     noKursi: v.noKursi,
-                    // isRegis: status,
+                    isRegis: status,
                     Regis: isMhsRegis.trim(),
                     action: button.trim(),
                 });
@@ -155,10 +136,12 @@ const index = async (req, res) => {
             });
 
             output.data = pushResult;
+
+
             return res.status(200).json(output);
         }
 
-        res.render("jti/mahasiswa/belum/index", {
+        res.render("orangtua/belum/index", {
             title: "Belum Regis",
             currentUrl: url,
         });
@@ -172,13 +155,15 @@ const index = async (req, res) => {
 };
 
 const store = async (req, res) => {
-    const { nama, nim, jurusan, prodi, noIjazah, noKursi } = req.body;
+    const { nama, nim, jurusan, noIjazah, noKursi } = req.body;
 
     try {
-        const Mahasiswa = await mahasiswaModel.create({ name: nama, nim: nim, jurusan: jurusan, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id })
+        const orangtua = await orangtuaModel.create({
+            name: nama, nim: nim, jurusan: jurusan, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id
+        })
         res.status(201).json({
             status: 200,
-            message: "Berhasil Menambahkan Mahasiswa",
+            message: "Berhasil Menambahkan orangtua",
         })
     } catch (error) {
         console.log(error);
@@ -193,7 +178,7 @@ const update = async (req, res) => {
     const { id } = req.body;
 
     try {
-        const Mahasiswa = await mahasiswaModel.updateOne(
+        const orangtua = await orangtuaModel.updateOne(
             { _id: id },
             {
                 isRegis: true,
@@ -202,7 +187,7 @@ const update = async (req, res) => {
         );
         res.status(200).json({
             status: 200,
-            message: "Berhasil Meregistrasi Mahasiswa",
+            message: "Berhasil Meregistrasi Orang Tua",
         })
     } catch (error) {
         return res.status(400).json({
@@ -215,11 +200,11 @@ const update = async (req, res) => {
 const findOne = async (req, res) => {
     const { id } = req.params
     try {
-        let mahasiswa = await mahasiswaModel.findOne({ _id: id })
+        let orangtua = await orangtuaModel.findOne({ _id: id })
         return res.status(200).json({
             status: 200,
-            message: "Berhasil Mendapatkan barang",
-            result: mahasiswa
+            message: "Berhasil Mendapatkan Data",
+            result: orangtua
         })
 
     } catch (error) {
@@ -232,15 +217,14 @@ const findOne = async (req, res) => {
 }
 
 const updateData = async (req, res) => {
-    const { id, nim, nama, prodi, jurusan, noIjazah, noKursi } = req.body
+    const { id, nim, nama, jurusan, noIjazah, noKursi } = req.body
     try {
-        const Mahasiswa = await mahasiswaModel.updateOne(
+        const orangtua = await orangtuaModel.updateOne(
             { _id: id },
             {
                 nim: nim,
                 name: nama,
                 jurusan: jurusan,
-                prodi: prodi,
                 noIjazah: noIjazah,
                 noKursi: noKursi,
                 clientId: req.session.clientId,
@@ -261,7 +245,7 @@ const updateData = async (req, res) => {
 const deleteData = async (req, res) => {
     try {
         const { id } = req.body;
-        let getData = await mahasiswaModel.findByIdAndDelete({
+        let getData = await orangtuaModel.findByIdAndDelete({
             _id: id,
         });
 
@@ -285,62 +269,6 @@ const deleteData = async (req, res) => {
     }
 }
 
-const pdf = async (req, res) => {
-    try {
-        let pushWhere = [];
-        const data = await mahasiswaModel.aggregate([
-            {
-                $match: {
-                    isDeleted: false,
-                    isRegis: false,
-                    jurusan: "JTI"
-                },
-            },
-            {
-                $addFields: {
-                    angkaPart: {
-                        $toInt: {
-                            $arrayElemAt: [{ $split: ["$noKursi", "."] }, 1],
-                        },
-                    },
-                },
-            },
-        ]);
-        data.sort((a, b) => a.angkaPart - b.angkaPart);
-
-        const doc = new PDFDocument({ margin: 30, size: 'A4' });
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'inline; filename="JTI.pdf"');
-
-        doc.pipe(res);
-        doc.fontSize(9);
-
-
-        data.forEach(item => {
-            pushWhere.push([item.nim, item.name, item.jurusan, item.prodi, item.noIjazah, item.noKursi]);
-        });
-
-        const table = {
-            headers: ["NIM", "Nama", "Jurusan", "Prodi", "No. Ijazah", "No. Kursi"],
-            rows: pushWhere
-        };
-
-        doc.table(table, {
-            prepareHeader: () => table.headers,
-            prepareRow: row => row,
-            columnsSize: [60, 195, 40, 110, 90, 45],
-        });
-
-        doc.end();
-    } catch (error) {
-        return res.status(400).json({
-            status: 400,
-            message: "Terjadi kesalahan data",
-            result: error.message,
-        });
-    }
-}
-
 module.exports = {
     index,
     store,
@@ -348,6 +276,5 @@ module.exports = {
     findOne,
     updateData,
     deleteData,
-    pdf,
 
 };

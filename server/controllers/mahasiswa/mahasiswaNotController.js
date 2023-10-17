@@ -4,7 +4,7 @@ const index = async (req, res) => {
     url = req.originalUrl.toString()
     try {
         if (req.xhr) {
-            const { draw, order, start, length, search, filterNama, filterNim, filterJurusan } = req.query;
+            const { draw, order, start, length, search, filterNama, filterNim, filterProdi } = req.query;
 
             console.log(req.query);
 
@@ -23,6 +23,9 @@ const index = async (req, res) => {
                         jurusan: regexSearch,
                     },
                     {
+                        prodi: regexSearch,
+                    },
+                    {
                         noKursi: regexSearch
                     },
                     {
@@ -36,7 +39,6 @@ const index = async (req, res) => {
             let whereQuery = {
                 isDeleted: false,
                 isRegis: false,
-                prodi: "JTI"
             };
 
             if (filterNama) {
@@ -47,8 +49,8 @@ const index = async (req, res) => {
                 whereQuery.nim = { $regex: new RegExp(filterNim, "i") };
             }
 
-            if (filterJurusan) {
-                whereQuery.jurusan = { $regex: new RegExp(filterJurusan, "i") };
+            if (filterProdi) {
+                whereQuery.prodi = { $regex: new RegExp(filterProdi, "i") };
             }
 
             if (pushWhere.length > 0) {
@@ -56,12 +58,11 @@ const index = async (req, res) => {
             }
 
             // order column
-            let orderColumn = ["", "nim", "name", "jurusan", "noIjazah", "noKursi", "isRegis"];
+            let orderColumn = ["", "nim", "name", "jurusan", "prodi", "noIjazah", "noKursi", "isRegis"];
             let indexColumn = parseInt(order[0].column);
             let dir = order[0].dir;
             let sortDir = dir === "asc" ? 1 : -1;
             let sortColumn = orderColumn[indexColumn];
-
 
             if (sortColumn === "noKursi") {
                 sortColumn = "noKursi"; // Jangan gunakan sortColumn
@@ -91,8 +92,7 @@ const index = async (req, res) => {
             let countDocuments = await mahasiswaModel.aggregate([
                 {
                     $match: {
-                        isDeleted: false,
-                        isRegis: false
+                        ...whereQuery,
                     },
                 },
             ]);
@@ -109,14 +109,14 @@ const index = async (req, res) => {
             let pushResult = [];
             let number = parseInt(start) + 1;
             result.forEach((v, i) => {
-                let isMhsRegis = `<button class="btn btn-outline-success mx-1 btn-isRegis" type="button" data-bs-toggle="modal" data-id="${v._id}" data-bs-target="#isRegisConfirm">
+                let isMhsRegis = `<button class="btn btn-outline-danger mx-1 btn-isRegis" type="button" data-bs-toggle="modal" data-id="${v._id}" data-bs-target="#isRegisConfirm">
                 <i class="fa fa-check"></i></button>`;
 
-                let status = `
-                <div class="d-grid justify-content-start ">
-                    <span class="badge ${v.isRegis ? 'bg-success' : 'bg-danger'} m-1">Belum Registrasi</span>
-                </div>
-                `;
+                // let status = `
+                // <div class="d-grid justify-content-start ">
+                //     <span class="badge ${v.isRegis ? 'bg-success' : 'bg-danger'} m-1">Belum Registrasi</span>
+                // </div>
+                // `;
 
                 let button = `
                     <div class="dropdown">
@@ -140,9 +140,10 @@ const index = async (req, res) => {
                     nim: v.nim,
                     name: v.name,
                     jurusan: v.jurusan,
+                    prodi: v.prodi,
                     noIjazah: v.noIjazah,
                     noKursi: v.noKursi,
-                    isRegis: status,
+                    // isRegis: status,
                     Regis: isMhsRegis.trim(),
                     action: button.trim(),
                 });

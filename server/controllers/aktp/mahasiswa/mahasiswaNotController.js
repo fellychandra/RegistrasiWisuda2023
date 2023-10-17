@@ -8,8 +8,6 @@ const index = async (req, res) => {
         if (req.xhr) {
             const { draw, order, start, length, search, filterNama, filterNim, filterProdi } = req.query;
 
-            console.log(req.query);
-
             let pushWhere = [];
             if (search && search.value !== "") {
                 const regexSearch = new RegExp(search.value, "i");
@@ -41,7 +39,7 @@ const index = async (req, res) => {
             let whereQuery = {
                 isDeleted: false,
                 isRegis: false,
-                jurusan: "JTI"
+                jurusan: "AKTP"
             };
 
             if (filterNama) {
@@ -155,11 +153,13 @@ const index = async (req, res) => {
             });
 
             output.data = pushResult;
+
+
             return res.status(200).json(output);
         }
 
-        res.render("jti/mahasiswa/belum/index", {
-            title: "Belum Regis",
+        res.render("aktp/mahasiswa/belum/index", {
+            title: "AKTP",
             currentUrl: url,
         });
     } catch (error) {
@@ -175,7 +175,7 @@ const store = async (req, res) => {
     const { nama, nim, jurusan, prodi, noIjazah, noKursi } = req.body;
 
     try {
-        const Mahasiswa = await mahasiswaModel.create({ name: nama, nim: nim, jurusan: jurusan, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id })
+        const Mahasiswa = await mahasiswaModel.create({ name: nama, nim: nim, jurusan: jurusan, prodi: prodi, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id })
         res.status(201).json({
             status: 200,
             message: "Berhasil Menambahkan Mahasiswa",
@@ -293,7 +293,7 @@ const pdf = async (req, res) => {
                 $match: {
                     isDeleted: false,
                     isRegis: false,
-                    jurusan: "JTI"
+                    jurusan: "AKTP"
                 },
             },
             {
@@ -310,7 +310,7 @@ const pdf = async (req, res) => {
 
         const doc = new PDFDocument({ margin: 30, size: 'A4' });
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'inline; filename="JTI.pdf"');
+        res.setHeader('Content-Disposition', 'inline; filename="AKT.pdf"');
 
         doc.pipe(res);
         doc.fontSize(9);

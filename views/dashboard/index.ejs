@@ -1,86 +1,151 @@
-<div class="page-header d-print-none">
-    <div class="container-xl">
-        <div class="row g-2 align-items-center">
-            <div class="col">
-                <!-- Page pre-title -->
-                <div class="page-pretitle">
-                    Beranda
-                </div>
-                <h2 class="page-title">
-                    <%- title %>
-                </h2>
-            </div>
-            <!-- Page title actions -->
-
-        </div>
-    </div>
-</div>
-
 <div class="page-body">
     <div class="container-xl">
-        <div class="h2 mb-1">Mahasiswa</div>
+        <div class="h2 mb-1">Mahasiswa Unregister</div>
         <div class="row row-deck row-cards mb-5">
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <div class="subheader h5">Jumlah yang belum regis</div>
-
+                            <div class="h3" style="font-weight: 400;">Seluruh Mahasiswa</div>
                         </div>
-                        <div class="h1 p-4 text-center align-center">
-                            <%= mhsNot %>
+                        <div class="h1 p-1 text-center align-center">
+                            <%= mhsAll %>
                         </div>
-
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex">
+                            <a href="/mahasiswa/belum" class="btn btn-primary ms-auto">Lihat</a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <div class="subheader h5">Jumlah yang sudah regis</div>
-
+                            <div class="h3" style="font-weight: 400;">JTI</div>
                         </div>
-                        <div class="h1 p-4 text-center align-center">
-                            <%= mhsDone %>
+                        <h1 class="p-1 text-center align-center font">
+                            <%= mhsJti %>
+                        </h1>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex">
+                            <a href="/jti/mahasiswa" class="btn btn-primary ms-auto">Lihat</a>
                         </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="h3" style="font-weight: 400;">JTIN</div>
+                        </div>
+                        <div class="h1 p-1 text-center align-center">
+                            <%= mhsJtin %>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex">
+                            <a href="/jtin/mahasiswa" class="btn btn-primary ms-auto">Lihat</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="h3" style="font-weight: 400;">AKTP</div>
+                        </div>
+                        <h1 class="p-1 text-center align-center font">
+                            <%= mhsAktp %>
+                        </h1>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex">
+                            <a href="/aktp/mahasiswa" class="btn btn-primary ms-auto">Lihat</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="h2 mb-1">Mahasiswa Register</div>
+        <div class="row row-deck row-cards mb-5">
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="h3" style="font-weight: 400;">Seluruh Mahasiswa</div>
+                        </div>
+                        <div class="h1 p-1 text-center align-center">
+                            <%= mhsAllDone %>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex">
+                            <a href="/mahasiswa/sudah" class="btn btn-primary ms-auto">Lihat</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="h3" style="font-weight: 400;">JTI</div>
+                        </div>
+                        <h1 class="p-1 text-center align-center font">
+                            <%= mhsJtiDone %>
+                        </h1>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex">
+                            <a href="/jti/sudah" class="btn btn-primary ms-auto">Lihat</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="h3" style="font-weight: 400;">JTIN</div>
+                        </div>
+                        <div class="h1 p-1 text-center align-center">
+                            <%= mhsJtinDone %>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex">
+                            <a href="/jtin/sudah" class="btn btn-primary ms-auto">Lihat</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="h3" style="font-weight: 400;">AKTP</div>
+                        </div>
+                        <h1 class="p-1 text-center align-center font">
+                            <%= mhsAktpDone %>
+                        </h1>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex">
+                            <a href="/aktp/sudah" class="btn btn-primary ms-auto">Lihat</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
 
-        <div class="h2 mb-1">Orang Tua</div>
-        <div class="row row-deck row-cards">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="subheader h5">Jumlah yang belum regis</div>
-
-                        </div>
-                        <div class="h1 p-4 text-center align-center">
-                            <%= ortuNot %>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="subheader h5">Jumlah yang sudah regis</div>
-
-                        </div>
-                        <div class="h1 p-4 text-center align-center">
-                            <%= ortuDone %>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>

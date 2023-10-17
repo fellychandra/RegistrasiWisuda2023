@@ -18,6 +18,7 @@ const orangtuaRouter = require('./server/routes/orangtua/orangtua');
 const importwisudawan = require('./server/routes/import/importwisudawan');
 const jtinRouter = require('./server/routes/jtin/jtin');
 const jtiRouter = require('./server/routes/jti/jti');
+const aktpRouter = require('./server/routes/aktp/aktp');
 
 
 const { isLogin, webProtect } = require("./server/middleware");
@@ -61,6 +62,7 @@ app.use('/mahasiswa', webProtect, mahasiswaRouter);
 app.use('/orangtua', webProtect, orangtuaRouter);
 app.use('/jti', webProtect, jtiRouter);
 app.use('/jtin', webProtect, jtinRouter);
+app.use('/aktp', webProtect, aktpRouter);
 app.use('/import', webProtect, importwisudawan);
 
 

@@ -28,9 +28,6 @@ const MahasiswaSchema = new mongoose.Schema(
         noKursi: {
             type: String,
         },
-        noKursi: {
-            type: String,
-        },
         isRegis: {
             type: Boolean,
             default: false,

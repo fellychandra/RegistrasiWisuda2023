@@ -1,10 +1,10 @@
-const mahasiswaModel = require('../../../models/mahasiswa');
+const orangtuaModel = require('../../models/orangtua');
 
 const index = async (req, res) => {
     url = req.originalUrl.toString()
     try {
         if (req.xhr) {
-            const { draw, order, start, length, search, filterNama, filterNim, filterProdi } = req.query;
+            const { draw, order, start, length, search, filterNama, filterNim, filterJurusan } = req.query;
 
             let pushWhere = [];
             if (search && search.value !== "") {
@@ -20,23 +20,17 @@ const index = async (req, res) => {
                         jurusan: regexSearch,
                     },
                     {
-                        prodi: regexSearch,
-                    },
-                    {
                         noKursi: regexSearch
                     },
                 ];
             }
 
 
-
             // jika ada pencarian data
             let whereQuery = {
                 isDeleted: false,
-                isRegis: true,
-                jurusan: "JTIN"
+                isRegis: true
             };
-
 
             if (filterNama) {
                 whereQuery.name = { $regex: new RegExp(filterNama, "i") };
@@ -46,8 +40,8 @@ const index = async (req, res) => {
                 whereQuery.nim = { $regex: new RegExp(filterNim, "i") };
             }
 
-            if (filterProdi) {
-                whereQuery.prodi = { $regex: new RegExp(filterProdi, "i") };
+            if (filterJurusan) {
+                whereQuery.jurusan = { $regex: new RegExp(filterJurusan, "i") };
             }
 
             if (pushWhere.length > 0) {
@@ -55,14 +49,14 @@ const index = async (req, res) => {
             }
 
             // order column
-            let orderColumn = ["", "nim", "name", "jurusan", "prodi", "noIjazah", "noKursi", "isRegis"];
+            let orderColumn = ["", "nim", "name", "jurusan", "noIjazah", "noKursi", "isRegis"];
             let indexColumn = parseInt(order[0].column);
             let dir = order[0].dir;
             let sortDir = dir === "asc" ? 1 : -1;
             let sortColumn = orderColumn[indexColumn];
 
             // result
-            let result = await mahasiswaModel.aggregate([
+            let result = await orangtuaModel.aggregate([
                 {
                     $match: {
                         ...whereQuery,
@@ -74,7 +68,7 @@ const index = async (req, res) => {
             ]);
 
             // count all data
-            let countDocuments = await mahasiswaModel.aggregate([
+            let countDocuments = await orangtuaModel.aggregate([
                 {
                     $match: {
                         isDeleted: false,
@@ -104,12 +98,27 @@ const index = async (req, res) => {
                 </div>
                 `;
 
+                let button = `
+                    <div class="dropdown">
+                        <button type="button"
+                            class="btn btn-sm btn-primary p-1 px-3 dropdown-toggle"
+                            data-bs-toggle="dropdown">
+                            Pilih Aksi
+                        </button>
+                        <div class="dropdown-menu">
+                            <a  href="penjualan/formEdit/${v._id}" class="dropdown-item"><i
+                                    class="fa fa-pencil pe-2"></i>Edit</a>
+                            
+                            <button class="btn-delete dropdown-item" data-id="${v._id}" data-transaksiref="${v.transaksiRef}">
+                                <i class="fa fa-trash pe-2"></i>Hapus</button>
+                        </div>
+                    </div>
+                `;
                 pushResult.push({
                     no: number,
                     nim: v.nim,
                     name: v.name,
                     jurusan: v.jurusan,
-                    prodi: v.prodi,
                     noIjazah: v.noIjazah,
                     noKursi: v.noKursi,
                     isRegis: status,
@@ -124,8 +133,8 @@ const index = async (req, res) => {
             return res.status(200).json(output);
         }
 
-        res.render("jtin/mahasiswa/sudah/index", {
-            title: "JTIN",
+        res.render("orangtua/sudah/index", {
+            title: "Sudah Regis",
             currentUrl: url,
         });
     } catch (error) {
@@ -141,7 +150,7 @@ const update = async (req, res) => {
     const { id } = req.body;
 
     try {
-        const Mahasiswa = await mahasiswaModel.updateOne(
+        const orangtua = await orangtuaModel.updateOne(
             { _id: id },
             {
                 isRegis: false,
@@ -150,7 +159,7 @@ const update = async (req, res) => {
         );
         res.status(200).json({
             status: 200,
-            message: "Berhasil Membatalkan Registasi Mahasiswa",
+            message: "Berhasil Membatalkan Registasi Orangtua",
         })
     } catch (error) {
         return res.status(400).json({

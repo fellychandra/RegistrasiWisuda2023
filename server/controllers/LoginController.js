@@ -164,6 +164,7 @@ const daftar = async (req, res) => {
             status: 200,
             message: "Berhasil Register",
         })
+    
     } catch (error) {
         return res.status(400).json({
             status: 400,

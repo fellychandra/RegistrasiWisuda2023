@@ -1,0 +1,30 @@
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs nav-fill" data-bs-toggle="tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a href="/mahasiswa/belum"
+                    class="nav-link <%- currentUrl == '/mahasiswa' || currentUrl == '/mahasiswa/belum' || currentUrl == '/mahasiswa' ? 'active' : '' %>">
+                    Seluruh Mahasiswa
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a href="/jti/mahasiswa/belum"
+                    class="nav-link <%- currentUrl == '/jti' || currentUrl == '/jti/mahasiswa/belum' || currentUrl == '/jti/mahasiswa' ? 'active' : '' %>">
+                    JTI
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a href="/jtin/mahasiswa/belum"
+                    class="nav-link <%- currentUrl == '/jtin' || currentUrl == '/jtin/mahasiswa/belum' || currentUrl == '/jtin/mahasiswa' ? 'active' : '' %>">
+                    JTIN
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/aktp/mahasiswa/belum"
+                    class="nav-link <%- currentUrl == '/aktp/mahasiswa/belum'   ? 'active' : '' %>">
+                    AKTP
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

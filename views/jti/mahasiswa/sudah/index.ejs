@@ -2,9 +2,8 @@
     <div class="container-xl">
         <div class="row">
             <div class="col-xl">
-                <h3 class="text-muted">Daftar <%- title %></h3>
+                <h3 class="text-muted">Daftar Sudah Regis</h3>
                 <div class="nav-align-top mb-4">
-                    <%-include('../tabDaftar.ejs');%>
                         <div class="tab-content">
                             <div class="tab-panel fade show active" id="navs-top-home" role="tabpanel">
                                 <div class="card">
@@ -26,7 +25,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="" class="form-label">Program Studi</label>
-                                                    <select name="jurusan" id="filter_jurusan" class="form-select filter filter_jurusan" style="width: 100%;">
+                                                    <select name="jurusan" id="filter_prodi" class="form-select filter filter_prodi" style="width: 100%;">
                                                         <option value="">-- Pilih --</option>
                                                         <option value="D3 - Teknik Elektronika">D3 - Teknik Elektronika</option>
                                                         <option value="D3 - Teknik Mekatronika">D3 - Teknik Mekatronika</option>
@@ -42,16 +41,16 @@
                                                 </div>
                                             </div>
                                             <hr class="hr" style="margin: 1%;"/>
-                                            <table class="table table-hover" id="dataTableMhsSudahRegis">
+                                            <table class="table table-hover" id="dataTableMhsJtiSudahRegis">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
                                                         <th>NIM</th>
                                                         <th>Nama</th>
+                                                        <th>Jurusan</th>
                                                         <th>Program Studi</th>
                                                         <th>No Ijazah</th>
                                                         <th>No Kursi</th>
-                                                        <th>Status</th>
                                                         <th>Registrasi</th>
                                                     </tr>
                                                 </thead>
@@ -65,6 +64,7 @@
                                                         <td>Teknik Informatika</td>
                                                         <td>No Kursi</td>
                                                         <td>felly20ti@mahasiswa.pcr.ac.id</td>
+                                                        <td>True</td>
                                                         <td>True</td>
                                                     </tr>
                                                 </tbody>

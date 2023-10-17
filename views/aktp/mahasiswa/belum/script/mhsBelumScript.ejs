@@ -6,7 +6,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "/mahasiswa/belum",
+                url: "/aktp/mahasiswa/belum",
                 type: "get",
                 dataType: "json",
                 data: function (d) {
@@ -25,7 +25,7 @@
                 { name: "NIM", targets: 1 },
                 { name: "Nama", targets: 2 },
                 { name: "Jurusan", targets: 3 },
-                { name: "Prodi", targets: 4 },
+                { name: "Jurusan", targets: 4 },
                 { name: "No_Ijazah", targets: 5 },
                 { name: "noKursi", targets: 6 },
                 { name: "action_Registrasi", targets: 7, orderable: false },
@@ -50,7 +50,7 @@
 
         $(document).on("click", ".btn-edit", function (e) {
             $('#submit').removeClass('btn-primary').removeClass('btn-tambah-mhs').addClass('btn-warning').addClass('btn-edit-mhs');
-            url = "/mahasiswa/belum?_method=patch";
+            url = "/aktp/mahasiswa/belum?_method=patch";
             method = "Patch";
 
             let id = $(this).data("id");
@@ -66,6 +66,7 @@
                         $("#nim").val(result.nim);
                         $("#nama").val(result.name);
                         $("#jurusan").val(result.jurusan);
+                        $("#prodi").val(result.prodi);
                         $("#noIjazah").val(result.noIjazah);
                         $("#noKursi").val(result.noKursi);
                     }
@@ -162,7 +163,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "/mahasiswa/belum",
+                        url: "/aktp/mahasiswa/belum",
                         dataType: "json",
                         method: "PUT",
                         data: { id: id },
@@ -215,7 +216,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "/mahasiswa/belum",
+                        url: "/aktp/mahasiswa/belum",
                         dataType: "json",
                         method: "DELETE",
                         data: { id: id },

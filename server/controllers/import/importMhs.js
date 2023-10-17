@@ -20,7 +20,7 @@ const index = async (req, res) => {
                 console.error('Nomor kursi tidak valid.');
             }
 
-            const mahasiswa = new mahasiswaModel({ nim: item.NIM, name: item.Nama, nik: item.NIK, noIjazah: item.Nomor_Ijazah, jurusan: item.Program_Studi, ipk: item.IPK, noKursi: formattedSeatNumber }); // Pastikan model Anda cocok
+            const mahasiswa = new mahasiswaModel({ nim: item.NIM, name: item.Nama, nik: item.NIK, noIjazah: item.Nomor_Ijazah, prodi: item.Program_Studi, jurusan: item.jurusan, ipk: item.IPK, noKursi: formattedSeatNumber }); // Pastikan model Anda cocok
             try {
                 await mahasiswa.save();
                 console.log(`Data mahasiswa ${mahasiswa.name} berhasil disimpan.`);

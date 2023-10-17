@@ -8,48 +8,91 @@ router.get('/', async function (req, res) {
   url = req.originalUrl
   try {
 
-    let countDocumentsMhsNot = await mahasiswaModel.aggregate([
+    let countDocumentsMhs = await mahasiswaModel.aggregate([
       {
         $match: {
           isDeleted: false,
-          isRegis: false
+          isRegis: false,
         },
       },
     ]);
 
+    let countDocumentsMhsJti = await mahasiswaModel.aggregate([
+      {
+        $match: {
+          isDeleted: false,
+          isRegis: false,
+          jurusan : "JTI"
+        },
+      },
+    ]);
+    let countDocumentsMhsJtin = await mahasiswaModel.aggregate([
+      {
+        $match: {
+          isDeleted: false,
+          isRegis: false,
+          jurusan :"JTIN"
+        },
+      },
+    ]);
+
+    let countDocumentsMhsAktp = await mahasiswaModel.aggregate([
+      {
+        $match: {
+          isDeleted: false,
+          isRegis: false,
+          jurusan : "AKTP"
+        },
+      },
+    ]);
     let countDocumentsMhsDone = await mahasiswaModel.aggregate([
       {
         $match: {
           isDeleted: false,
-          isRegis: true
+          isRegis: true,
+        },
+      },
+    ]);
+
+    let countDocumentsMhsJtiDone = await mahasiswaModel.aggregate([
+      {
+        $match: {
+          isDeleted: false,
+          isRegis: true,
+          jurusan : "JTI"
+        },
+      },
+    ]);
+    let countDocumentsMhsJtinDone = await mahasiswaModel.aggregate([
+      {
+        $match: {
+          isDeleted: false,
+          isRegis: true,
+          jurusan :"JTIN"
+        },
+      },
+    ]);
+
+    let countDocumentsMhsAktpDone = await mahasiswaModel.aggregate([
+      {
+        $match: {
+          isDeleted: false,
+          isRegis: true,
+          jurusan : "AKTP"
         },
       },
     ]);
 
     
-    let countDocumentsOrtuNot = await orangtuaModel.aggregate([
-      {
-        $match: {
-          isDeleted: false,
-          isRegis: false
-        },
-      },
-    ]);
-
-    let countDocumentsOrtuDone = await orangtuaModel.aggregate([
-      {
-        $match: {
-          isDeleted: false,
-          isRegis: true
-        },
-      },
-    ]);
-
     res.render('dashboard/index', {
-      mhsNot: countDocumentsMhsNot.length,
-      mhsDone: countDocumentsMhsDone.length,
-      ortuNot: countDocumentsOrtuNot.length,
-      ortuDone: countDocumentsOrtuDone.length,
+      mhsAll: countDocumentsMhs.length,
+      mhsJti: countDocumentsMhsJti.length,
+      mhsJtin: countDocumentsMhsJtin.length,
+      mhsAktp: countDocumentsMhsAktp.length,
+      mhsAllDone: countDocumentsMhsDone.length,
+      mhsJtiDone: countDocumentsMhsJtiDone.length,
+      mhsJtinDone: countDocumentsMhsJtinDone.length,
+      mhsAktpDone: countDocumentsMhsAktpDone.length,
       title: "Halaman Registrasi",
       currentUrl: url,
     });

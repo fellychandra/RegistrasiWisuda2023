@@ -2,9 +2,9 @@
     <div class="container-xl">
         <div class="row">
             <div class="col-xl">
-                <h3 class="text-muted">Daftar <%- title %></h3>
+                <%-include('../../../btnTambahData.ejs');%>
                 <div class="nav-align-top mb-4">
-                    <%-include('../tabDaftar.ejs');%>
+                    <%-include('../../../tabDaftar.ejs');%>
                         <div class="tab-content">
                             <div class="tab-panel fade show active" id="navs-top-home" role="tabpanel">
                                 <div class="card">
@@ -13,16 +13,12 @@
                                             <h2 class="">Tabel <%- title %></h4>
                                         </div>
                                         <div class="col d-flex justify-content-end">
-                                            <!-- <div class="me-2">
-                                                <a href="/export/mahasiswa" class="btn btn-outline-azure"><i class="fa fa-solid fa-file-import me-2"></i> Export Data</a>
-                                            </div> -->
                                             <div class="me-2">
-                                                <a href="/import/mahasiswa" class="btn btn-outline-success"><i class="fa fa-solid fa-file-import me-2"></i> Import Data</a>
+                                                <a href="/jti/sudah"  class="btn btn-outline-success"><i class="fa fa-solid fa-check me-2"></i>Lihat Berhasil Registrasi</a>
                                             </div>
                                             <div class="ms-1">
-                                                <button class="btn btn-primary btn-tambah" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#modalMhsTambah"><i class="fa fa-solid fa-plus me-2"></i>
-                                                Tambah</button>
+                                                <a href="/jti/pdf" class="btn btn-outline-warning" ><i class="fa fa-solid fa-file-pdf me-2"></i>
+                                                PDF</a>
                                             </div>
                                         </div>
                                     </div>
@@ -39,7 +35,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="" class="form-label">Program Studi</label>
-                                                        <select name="jurusan" id="filter_jurusan" class="form-select filter filter_jurusan">
+                                                        <select name="prodi" id="filter_prodi" class="form-select filter filter_prodi">
                                                             <option value="">-- Pilih --</option>
                                                             <option value="D3 - Teknik Elektronika">D3 - Teknik Elektronika</option>
                                                             <option value="D3 - Teknik Mekatronika">D3 - Teknik Mekatronika</option>
@@ -61,10 +57,10 @@
                                                         <th>#</th>
                                                         <th>NIM</th>
                                                         <th>Nama</th>
+                                                        <th>Jurusan</th>
                                                         <th>Program Studi</th>
                                                         <th>No Ijazah</th>
                                                         <th>No Kursi</th>
-                                                        <th>Status</th>
                                                         <th>Registrasi</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -108,5 +104,5 @@
 
 
 
-<%- include('./modal/modalMahasiswa.ejs'); %>
+<%- include('../../../modalMahasiswa.ejs'); %>
 <%- include('./script/mhsBelumScript.ejs'); %>
