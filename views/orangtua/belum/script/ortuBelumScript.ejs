@@ -1,6 +1,7 @@
 <script>
     $(document).ready(function () {
         let filterNama = $("#filter_nama").val(), filterNim = $("#filter_nim").val(), filterProdi = $("#filter_prodi").val();
+        const showActionColumn = "<%= jabatan %>" == "ACARA";
 
         var table = $('#dataTableOrtu').DataTable({
             processing: true,
@@ -27,7 +28,10 @@
                 { name: "Prodi", targets: 3 },
                 { name: "No_Kursi", targets: 4 },
                 { name: "action_Registrasi", targets: 5, orderable: false },
-                { name: "action", targets: 6, orderable: false },
+                {
+                    name: "action", targets: 6, orderable: false,
+                    visible: showActionColumn
+                },
             ],
             columns: [{ data: "no" }, { data: "nim" }, { data: "name" }, { data: "prodi" }, { data: "noKursi" }, { data: "Regis" }, { data: "action" }],
         });
@@ -45,6 +49,13 @@
             $('#submit').removeClass('btn-warning').removeClass('btn-edit-mhs').addClass('btn-primary').addClass('btn-tambah-mhs');
             url = "/orangtua/belum";
             method = "POST";
+
+            $("#id").val("");
+            $("#nim").val("");
+            $("#nama").val("");
+            $("#prodi").val("");
+            $("#noIjazah").val("");
+            $("#noKursi").val("");
         })
 
         $(document).on("click", ".btn-edit", function (e) {
@@ -146,57 +157,58 @@
             });
         })
 
-
-        $(document).on("click", ".btn-isRegis", function (e) {
-            e.preventDefault();
-            let id = $(this).data("id");
-            console.log(id);
-            Swal.fire({
-                title: "Registrasi",
-                text: "Yakin melakukan registrasi?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Ya, Registrasi!",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "/orangtua/belum",
-                        dataType: "json",
-                        method: "PUT",
-                        data: { id: id },
-                        dataType: "json",
-                        beforeSend: function () {
-                            Swal.disableButtons();
-                        },
-                        success: function (data) {
-                            if (data.status == 200) {
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "Berhasil",
-                                    text: data.message,
-                                    showConfirmButton: false,
-                                    timer: 500,
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Gagal",
-                                    text: data.message,
-                                    showConfirmButton: false,
-                                    timer: 500,
-                                });
+        if (showActionColumn) {
+            $(document).on("click", ".btn-isRegis", function (e) {
+                e.preventDefault();
+                let id = $(this).data("id");
+                console.log(id);
+                Swal.fire({
+                    title: "Registrasi",
+                    text: "Yakin melakukan registrasi?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Ya, Registrasi!",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "/orangtua/belum",
+                            dataType: "json",
+                            method: "PUT",
+                            data: { id: id },
+                            dataType: "json",
+                            beforeSend: function () {
+                                Swal.disableButtons();
+                            },
+                            success: function (data) {
+                                if (data.status == 200) {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Berhasil",
+                                        text: data.message,
+                                        showConfirmButton: false,
+                                        timer: 500,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Gagal",
+                                        text: data.message,
+                                        showConfirmButton: false,
+                                        timer: 500,
+                                    });
+                                }
+                                table.ajax.reload();
+                            },
+                            error: function (x, t, m) {
+                                console.log(x.responseText);
                             }
-                            table.ajax.reload();
-                        },
-                        error: function (x, t, m) {
-                            console.log(x.responseText);
-                        }
-                    });
-                }
+                        });
+                    }
+                });
             });
-        });
+        }
 
         $('.filter_prodi').select2();
 

@@ -1,12 +1,14 @@
+const PDFDocument = require("pdfkit-table");
 const mahasiswaModel = require('../../models/mahasiswa');
+const prodiModel = require('../../models/prodi')
 
 const index = async (req, res) => {
     url = req.originalUrl.toString()
+    console.log(req.session);
     try {
         if (req.xhr) {
             const { draw, order, start, length, search, filterNama, filterNim, filterProdi } = req.query;
 
-            console.log(req.query);
 
             let pushWhere = [];
             if (search && search.value !== "") {
@@ -156,8 +158,11 @@ const index = async (req, res) => {
             return res.status(200).json(output);
         }
 
+        const prodiList = await prodiModel.find();
+
         res.render("mahasiswa/belum/index", {
             title: "Belum Regis",
+            prodis: prodiList,
             currentUrl: url,
         });
     } catch (error) {
@@ -170,7 +175,7 @@ const index = async (req, res) => {
 };
 
 const store = async (req, res) => {
-    const { nama, nim, prodi,jurusan, noIjazah, noKursi } = req.body;
+    const { nama, nim, prodi, jurusan, noIjazah, noKursi } = req.body;
 
     try {
         const Mahasiswa = await mahasiswaModel.create({ name: nama, nim: nim, prodi: prodi, jurusan: jurusan, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id })
@@ -230,7 +235,7 @@ const findOne = async (req, res) => {
 }
 
 const updateData = async (req, res) => {
-    const { id, nim, nama, jurusan, noIjazah, noKursi } = req.body
+    const { id, nim, nama, jurusan, prodi, noIjazah, noKursi } = req.body
     try {
         const Mahasiswa = await mahasiswaModel.updateOne(
             { _id: id },
@@ -238,6 +243,7 @@ const updateData = async (req, res) => {
                 nim: nim,
                 name: nama,
                 jurusan: jurusan,
+                prodi: prodi,
                 noIjazah: noIjazah,
                 noKursi: noKursi,
                 clientId: req.session.clientId,
@@ -282,6 +288,61 @@ const deleteData = async (req, res) => {
     }
 }
 
+const pdf = async (req, res) => {
+    try {
+        let pushWhere = [];
+        const data = await mahasiswaModel.aggregate([
+            {
+                $match: {
+                    isDeleted: false,
+                    isRegis: false,
+                },
+            },
+            {
+                $addFields: {
+                    angkaPart: {
+                        $toInt: {
+                            $arrayElemAt: [{ $split: ["$noKursi", "."] }, 1],
+                        },
+                    },
+                },
+            },
+        ]);
+        data.sort((a, b) => a.angkaPart - b.angkaPart);
+
+        const doc = new PDFDocument({ margin: 30, size: 'A4' });
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'inline; filename="AKT.pdf"');
+
+        doc.pipe(res);
+        doc.fontSize(9);
+
+
+        data.forEach(item => {
+            pushWhere.push([item.nim, item.name, item.jurusan, item.prodi, item.noIjazah, item.noKursi]);
+        });
+
+        const table = {
+            headers: ["NIM", "Nama", "Jurusan", "Prodi", "No. Ijazah", "No. Kursi"],
+            rows: pushWhere
+        };
+
+        doc.table(table, {
+            prepareHeader: () => table.headers,
+            prepareRow: row => row,
+            columnsSize: [60, 195, 40, 110, 90, 45],
+        });
+
+        doc.end();
+    } catch (error) {
+        return res.status(400).json({
+            status: 400,
+            message: "Terjadi kesalahan data",
+            result: error.message,
+        });
+    }
+}
+
 module.exports = {
     index,
     store,
@@ -289,5 +350,6 @@ module.exports = {
     findOne,
     updateData,
     deleteData,
+    pdf,
 
 };

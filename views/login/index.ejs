@@ -50,42 +50,51 @@
           Create your account
         </h2>
         <%- include('../utils/session.ejs') %>
-        <form action="#" method="POST" id="formPendaftaran" autocomplete="off" novalidate>
-          <div class="mb-3">
-            <label class="form-label">Nama</label>
-            <input type="name" id="name" class="form-control" name="name" placeholder="Nama" autofocus>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" id="email" class="form-control" name="email" placeholder="Email" autofocus>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input type="username" id="username" class="form-control" name="username" placeholder="Username" autofocus>
-          </div>
-          <div class="mb-2">
-            <label class="form-label">
-              Password
-            </label>
-            <div class="input-group input-group-flat form-password-toggle">
-              <input type="password" id="password" class="form-control password" name="password"
-                placeholder="Your password" aria-describedby="password">
-              <span class="input-group-text show-password">
-                <i class="fa fa-light fa-eye-slash"></i>
-              </span>
+          <form action="#" method="POST" id="formPendaftaran" autocomplete="off" novalidate>
+            <div class="mb-3">
+              <label class="form-label">Nama</label>
+              <input type="name" id="name" class="form-control" name="name" placeholder="Nama" autofocus>
             </div>
-          </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" id="email" class="form-control" name="email" placeholder="Email" autofocus>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Role</label>
+              <select name="role" id="role" class="form-select filter filter_prodi" style="width: 100%;">
+                <option value="">-- Pilih --</option>
+                <option value="BAAK">BAAK</option>
+                <option value="DOKUM">DOKUM</option>
+                <option value="ACARA">ACARA</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Username</label>
+              <input type="username" id="username" class="form-control" name="username" placeholder="Username"
+                autofocus>
+            </div>
+            <div class="mb-2">
+              <label class="form-label">
+                Password
+              </label>
+              <div class="input-group input-group-flat form-password-toggle">
+                <input type="password" id="password" class="form-control password" name="password"
+                  placeholder="Your password" aria-describedby="password">
+                <span class="input-group-text show-password">
+                  <i class="fa fa-light fa-eye-slash"></i>
+                </span>
+              </div>
+            </div>
 
-          <div class="form-footer">
-            <button type="submit" id="" style="background-color: #203E5F;"
-              class="daftar btn btn-primary w-100">Daftar</button>
-          </div>
-        </form>
+            <div class="form-footer">
+              <button type="submit" id="" style="background-color: #203E5F;"
+                class="daftar btn btn-primary w-100">Daftar</button>
+            </div>
+          </form>
       </div>
     </div>
     <div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
-      <div class="bg-cover h-100 min-vh-100"
-        style="background-image: url(./assets/img/PCRBanner.jpg)">
+      <div class="bg-cover h-100 min-vh-100" style="background-image: url(./assets/img/PCRBanner.jpg)">
       </div>
     </div>
   </div>

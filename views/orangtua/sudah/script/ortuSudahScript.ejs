@@ -2,6 +2,7 @@
     $(document).ready(function () {
         let filterNama = $("#filter_nama").val(), filterNim = $("#filter_nim").val(), filterProdi = $("#filter_prodi").val();
 
+        const showActionColumn = "<%= jabatan %>" == "ACARA";
         var table = $('#dataTableOrtuSudahRegis').DataTable({
             processing: true,
             serverSide: true,
@@ -39,6 +40,7 @@
             table.ajax.reload(null, false);
         })
 
+        if (showActionColumn) {
         $(document).on("click", ".btn-isRegis", function (e) {
             e.preventDefault();
             let id = $(this).data("id");
@@ -89,6 +91,7 @@
                 }
             });
         });
+        }
 
 
     });

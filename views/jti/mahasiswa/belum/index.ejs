@@ -2,7 +2,9 @@
     <div class="container-xl">
         <div class="row">
             <div class="col-xl">
+                <% if(jabatan !== "BAAK" && jabatan !== "DOKUM"){ %>
                 <%-include('../../../btnTambahData.ejs');%>
+                <% } %>
                 <div class="nav-align-top mb-4">
                     <%-include('../../../tabDaftar.ejs');%>
                         <div class="tab-content">
@@ -37,16 +39,9 @@
                                                         <label for="" class="form-label">Program Studi</label>
                                                         <select name="prodi" id="filter_prodi" class="form-select filter filter_prodi">
                                                             <option value="">-- Pilih --</option>
-                                                            <option value="D3 - Teknik Elektronika">D3 - Teknik Elektronika</option>
-                                                            <option value="D3 - Teknik Mekatronika">D3 - Teknik Mekatronika</option>
-                                                            <option value="D3 - Teknik Komputer">D3 - Teknik Komputer</option>
-                                                            <option value="D4 - Akuntansi Perpajakan">D4 - Akuntansi Perpajakan</option>
-                                                            <option value="D4 - Sistem Informasi">D4 - Sistem Informasi</option>
-                                                            <option value="D4 - Teknik Elektronika Telekomunikasi">D4 - Teknik Elektronika Telekomunikasi</option>
-                                                            <option value="D4 - Teknik Informatika">D4 - Teknik Informatika</option>
-                                                            <option value="D4 - Teknik Listrik">D4 - Teknik Listrik</option>
-                                                            <option value="D4 - Teknologi Rekayasa Jaringan Telekomunikasi">D4 - Teknologi Rekayasa Jaringan Telekomunikasi</option>
-                                                            <option value="D4 - Teknik Mesin">D4 - Teknik Mesin</option>
+                                                            <% prodis.forEach(prodi => { %>
+                                                                <option value="<%= prodi.prodi %>"><%= prodi.prodi %></option>
+                                                            <% }); %>
                                                         </select>
                                                     </div>
                                                 </div>

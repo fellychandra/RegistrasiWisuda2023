@@ -26,5 +26,7 @@ router.route('/sudah')
     .get(mahasiswaDone.index)
     .put(mahasiswaDone.update)
 
+router.route('/pdf')
+    .get(mahasiswaNot.pdf)
 
 module.exports = router;

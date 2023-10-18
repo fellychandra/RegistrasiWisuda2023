@@ -2,6 +2,8 @@
     $(document).ready(function () {
         let filterNama = $("#filter_nama").val(), filterNim = $("#filter_nim").val(), filterProdi = $("#filter_prodi").val();
 
+        const showActionColumn = "<%= jabatan %>" == "ACARA";
+
         var table = $('#dataTableMhs').DataTable({
             processing: true,
             serverSide: true,
@@ -29,9 +31,12 @@
                 { name: "No_Ijazah", targets: 5 },
                 { name: "noKursi", targets: 6 },
                 { name: "action_Registrasi", targets: 7, orderable: false },
-                { name: "action", targets: 8, orderable: false },
+                {
+                    name: "action", targets: 8, orderable: false,
+                    visible: showActionColumn
+                },
             ],
-            columns: [{ data: "no" }, { data: "nim" }, { data: "name" }, { data: "jurusan" },{ data: "prodi" }, { data: "noIjazah" }, { data: "noKursi" }, { data: "Regis" }, { data: "action" }],
+            columns: [{ data: "no" }, { data: "nim" }, { data: "name" }, { data: "jurusan" }, { data: "prodi" }, { data: "noIjazah" }, { data: "noKursi" }, { data: "Regis" }, { data: "action" }],
         });
 
         $(".filter").on("change", function () {
@@ -46,6 +51,13 @@
             $('#submit').removeClass('btn-warning').removeClass('btn-edit-mhs').addClass('btn-primary').addClass('btn-tambah-mhs');
             url = "/mahasiswa/belum";
             method = "POST";
+            $("#id").val("");
+            $("#nim").val("");
+            $("#nama").val("");
+            $("#prodi").val("");
+            $("#jurusan").val("");
+            $("#noIjazah").val("");
+            $("#noKursi").val("");
         })
 
         $(document).on("click", ".btn-edit", function (e) {
@@ -66,6 +78,7 @@
                         $("#nim").val(result.nim);
                         $("#nama").val(result.name);
                         $("#jurusan").val(result.jurusan);
+                        $("#prodi").val(result.prodi);
                         $("#noIjazah").val(result.noIjazah);
                         $("#noKursi").val(result.noKursi);
                     }
@@ -147,6 +160,7 @@
             });
         })
 
+        if (showActionColumn) {
         $(document).on("click", ".btn-isRegis", function (e) {
             e.preventDefault();
             let id = $(this).data("id");
@@ -196,7 +210,8 @@
                     });
                 }
             });
-        });
+        });      
+        }
 
         $('.filter_prodi').select2();
 

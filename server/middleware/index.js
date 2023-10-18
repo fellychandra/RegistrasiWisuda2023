@@ -29,12 +29,33 @@ const webProtect = async (req, res, next) => {
 };
 
 const isLogin = async (req, res, next) => {
-    const { token, name, _id } = req.session;
+    const { token, name, _id, role } = req.session;
     if (token) {
         req.is_login = true;
     }
     next();
 };
+
+// const gate = (roles) => async (req, res, next) => {
+//     try {
+//         if (req.session.token && req.session.salt) {
+//             jwt.verify(req.session.token, req.session.salt, async (err, decoded) => {
+//                 if (err) {
+//                     console.log(err);
+//                     return res.redirect("/logout");
+//                 }
+//                 if (req.session.isOwner) return next();
+//                 if (roles === "BAA") return next();
+//                 if (checkRole(roles, req.session)) return next();
+
+//                 return res.redirect("/noaccess");
+//             });
+//         } else return res.redirect("/security/logout");
+//     } catch (error) {
+//         console.log(error);
+//         return res.redirect("/security/logout");
+//     }
+// };
 
 module.exports = {
     webProtect,

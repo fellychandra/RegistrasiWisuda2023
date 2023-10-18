@@ -77,6 +77,7 @@ const login = async (req, res) => {
             token,
             name: user.name,
             _id: user._id,
+            role : user.role,
         };
 
         res.status(200).json({
@@ -95,7 +96,7 @@ const login = async (req, res) => {
 
 
 const register = async (req, res) => {
-    //isLogin(req, res)
+    isLogin(req, res)
     try {
 
         // alert session
@@ -132,7 +133,7 @@ const register = async (req, res) => {
 const daftar = async (req, res) => {
     try {
         console.log(req.body);
-        const { name, username, email, password } = req.body
+        const { name, username, email, password, role } = req.body
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
@@ -151,13 +152,14 @@ const daftar = async (req, res) => {
 
         // }
 
-        const user = await User.create({ name, username, email, password })
+        const user = await User.create({ name, username, email, password ,role })
         const token = user.createJWT()
         res.status(201).json({
             user: {
                 email: user.email,
                 lastName: user.lastName,
                 location: user.location,
+                role : user.role,
                 name: user.name
             }, token,
             location: user.location,

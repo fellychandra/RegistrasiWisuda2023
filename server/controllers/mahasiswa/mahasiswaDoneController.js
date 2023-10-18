@@ -1,4 +1,5 @@
 const mahasiswaModel = require('../../models/mahasiswa');
+const prodiModel = require('../../models/prodi')
 
 const index = async (req, res) => {
     url = req.originalUrl.toString()
@@ -139,9 +140,10 @@ const index = async (req, res) => {
 
             return res.status(200).json(output);
         }
-
+        const prodiList = await prodiModel.find();
         res.render("mahasiswa/sudah/index", {
             title: "Sudah Regis",
+            prodis: prodiList,
             currentUrl: url,
         });
     } catch (error) {

@@ -19,11 +19,9 @@ const UserSchema = new mongoose.Schema(
         },
         email: {
             type: String,
-            // validate: {
-            //     validator: validator.isEmail,
-            //     message: 'Tolong masukkan email yang valid'
-            // },
-            // unique: true,
+        },
+        role: {
+            type: String,
         },
         password: {
             type: String,
