@@ -175,7 +175,7 @@ const store = async (req, res) => {
     const { nama, nim, jurusan, prodi, noIjazah, noKursi } = req.body;
 
     try {
-        const Mahasiswa = await mahasiswaModel.create({ name: nama, nim: nim, jurusan: jurusan, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id })
+        const Mahasiswa = await mahasiswaModel.create({ name: nama, nim: nim, prodi: prodi, jurusan: jurusan, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id })
         res.status(201).json({
             status: 200,
             message: "Berhasil Menambahkan Mahasiswa",

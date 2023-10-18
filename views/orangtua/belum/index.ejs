@@ -2,10 +2,7 @@
     <div class="container-xl">
         <div class="row">
             <div class="col-xl">
-                <div class="page-pretitle text-capitalize mb-2">
-                    <%= currentUrl %>
-                </div>
-                <h3 class="text-muted">Daftar <%- title %></h3>
+                <h2>Daftar <%- title %></h2>
                 <div class="nav-align-top mb-4">
                     <%-include('../tabDaftar.ejs');%>
                         <div class="tab-content">
@@ -41,8 +38,8 @@
                                                         <input type="text" name="nim" id="filter_nim" class="form-control filter filter_nim">
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <label for="" class="form-label">Jurusan</label>
-                                                        <select name="jurusan" id="filter_jurusan" class="form-select filter filter_jurusan" style="width: 100%;">
+                                                        <label for="" class="form-label">Prodi</label>
+                                                        <select name="prodi" id="filter_prodi" class="form-select filter filter_prodi" style="width: 100%;">
                                                             <option value="">-- Pilih --</option>
                                                             <option value="D3 - Teknik Elektronika">D3 - Teknik Elektronika</option>
                                                             <option value="D3 - Teknik Mekatronika">D3 - Teknik Mekatronika</option>
@@ -65,9 +62,7 @@
                                                         <th>NIM</th>
                                                         <th>Nama</th>
                                                         <th>Program Studi</th>
-                                                        <th>No Ijazah</th>
                                                         <th>No Kursi</th>
-                                                        <th>Status</th>
                                                         <th>Registrasi</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -80,7 +75,6 @@
                                                         <td>Felly Chandra</td>
                                                         <td>2055301050</td>
                                                         <td>Teknik Informatika</td>
-                                                        <td>12</td>
                                                         <td>felly20ti@mahasiswa.pcr.ac.id</td>
                                                         <td>True</td>
                                                         <td>

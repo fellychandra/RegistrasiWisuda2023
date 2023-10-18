@@ -4,7 +4,7 @@ const index = async (req, res) => {
     url = req.originalUrl.toString()
     try {
         if (req.xhr) {
-            const { draw, order, start, length, search, filterNama, filterNim, filterJurusan } = req.query;
+            const { draw, order, start, length, search, filterNama, filterNim, filterProdi } = req.query;
 
             console.log(req.query);
 
@@ -20,13 +20,10 @@ const index = async (req, res) => {
                         name: regexSearch,
                     },
                     {
-                        jurusan: regexSearch,
+                        prodi: regexSearch,
                     },
                     {
                         noKursi: regexSearch
-                    },
-                    {
-                        noIjazah: regexSearch,
                     },
                 ];
             }
@@ -46,8 +43,8 @@ const index = async (req, res) => {
                 whereQuery.nim = { $regex: new RegExp(filterNim, "i") };
             }
 
-            if (filterJurusan) {
-                whereQuery.jurusan = { $regex: new RegExp(filterJurusan, "i") };
+            if (filterProdi) {
+                whereQuery.prodi = { $regex: new RegExp(filterProdi, "i") };
             }
 
             if (pushWhere.length > 0) {
@@ -55,7 +52,7 @@ const index = async (req, res) => {
             }
 
             // order column
-            let orderColumn = ["", "nim", "name", "jurusan", "noIjazah", "noKursi", "isRegis"];
+            let orderColumn = ["", "nim", "name", "prodi", "noKursi", "isRegis"];
             let indexColumn = parseInt(order[0].column);
             let dir = order[0].dir;
             let sortDir = dir === "asc" ? 1 : -1;
@@ -95,7 +92,7 @@ const index = async (req, res) => {
             let pushResult = [];
             let number = parseInt(start) + 1;
             result.forEach((v, i) => {
-                let isMhsRegis = `<button class="btn btn-outline-success mx-1 btn-isRegis" type="button" data-bs-toggle="modal" data-id="${v._id}" data-bs-target="#isRegisConfirm">
+                let isMhsRegis = `<button class="btn btn-outline-danger mx-1 btn-isRegis" type="button" data-bs-toggle="modal" data-id="${v._id}" data-bs-target="#isRegisConfirm">
                 <i class="fa fa-check"></i></button>`;
 
                 let status = `
@@ -125,10 +122,8 @@ const index = async (req, res) => {
                     no: number,
                     nim: v.nim,
                     name: v.name,
-                    jurusan: v.jurusan,
-                    noIjazah: v.noIjazah,
+                    prodi: v.prodi,
                     noKursi: v.noKursi,
-                    isRegis: status,
                     Regis: isMhsRegis.trim(),
                     action: button.trim(),
                 });
@@ -155,11 +150,11 @@ const index = async (req, res) => {
 };
 
 const store = async (req, res) => {
-    const { nama, nim, jurusan, noIjazah, noKursi } = req.body;
+    const { nama, nim, jurusan, prodi, noIjazah, noKursi } = req.body;
 
     try {
         const orangtua = await orangtuaModel.create({
-            name: nama, nim: nim, jurusan: jurusan, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id
+            name: nama, nim: nim, prodi: prodi, noIjazah: noIjazah, noKursi: noKursi, clientId: req.session._id
         })
         res.status(201).json({
             status: 200,
@@ -217,14 +212,14 @@ const findOne = async (req, res) => {
 }
 
 const updateData = async (req, res) => {
-    const { id, nim, nama, jurusan, noIjazah, noKursi } = req.body
+    const { id, nim, nama, prodi, noIjazah, noKursi } = req.body
     try {
         const orangtua = await orangtuaModel.updateOne(
             { _id: id },
             {
                 nim: nim,
                 name: nama,
-                jurusan: jurusan,
+                prodi: prodi,
                 noIjazah: noIjazah,
                 noKursi: noKursi,
                 clientId: req.session.clientId,

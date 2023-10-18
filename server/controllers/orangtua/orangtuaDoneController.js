@@ -4,20 +4,20 @@ const index = async (req, res) => {
     url = req.originalUrl.toString()
     try {
         if (req.xhr) {
-            const { draw, order, start, length, search, filterNama, filterNim, filterJurusan } = req.query;
+            const { draw, order, start, length, search, filterNama, filterNim, filterProdi } = req.query;
 
             let pushWhere = [];
             if (search && search.value !== "") {
                 const regexSearch = new RegExp(search.value, "i");
                 pushWhere = [
                     {
-                        name: regexSearch,
-                    },
-                    {
                         nim: regexSearch,
                     },
                     {
-                        jurusan: regexSearch,
+                        name: regexSearch,
+                    },
+                    {
+                        prodi: regexSearch,
                     },
                     {
                         noKursi: regexSearch
@@ -40,8 +40,8 @@ const index = async (req, res) => {
                 whereQuery.nim = { $regex: new RegExp(filterNim, "i") };
             }
 
-            if (filterJurusan) {
-                whereQuery.jurusan = { $regex: new RegExp(filterJurusan, "i") };
+            if (filterProdi) {
+                whereQuery.prodi = { $regex: new RegExp(filterProdi, "i") };
             }
 
             if (pushWhere.length > 0) {
@@ -49,7 +49,7 @@ const index = async (req, res) => {
             }
 
             // order column
-            let orderColumn = ["", "nim", "name", "jurusan", "noIjazah", "noKursi", "isRegis"];
+            let orderColumn = ["", "nim", "name", "prodi", "noKursi", "isRegis"];
             let indexColumn = parseInt(order[0].column);
             let dir = order[0].dir;
             let sortDir = dir === "asc" ? 1 : -1;
@@ -118,11 +118,10 @@ const index = async (req, res) => {
                     no: number,
                     nim: v.nim,
                     name: v.name,
-                    jurusan: v.jurusan,
-                    noIjazah: v.noIjazah,
+                    prodi: v.prodi,
                     noKursi: v.noKursi,
-                    isRegis: status,
                     Regis: isMhsRegis.trim(),
+                    action: button.trim(),
                 });
                 number++;
             });

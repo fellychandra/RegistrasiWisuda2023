@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function () {
-        let filterNama = $("#filter_nama").val(), filterNim = $("#filter_nim").val(), filterJurusan = $("#filter_jurusan").val();
+        let filterNama = $("#filter_nama").val(), filterNim = $("#filter_nim").val(), filterProdi = $("#filter_prodi").val();
 
         var table = $('#dataTableOrtu').DataTable({
             processing: true,
@@ -12,7 +12,7 @@
                 data: function (d) {
                     d.filterNama = filterNama,
                         d.filterNim = filterNim,
-                        d.filterJurusan = filterJurusan
+                        d.filterProdi = filterProdi
                     return d
                 }
             },
@@ -24,20 +24,18 @@
                 { name: "no", targets: 0, orderable: false },
                 { name: "NIM", targets: 1 },
                 { name: "Nama", targets: 2 },
-                { name: "Jurusan", targets: 3 },
-                { name: "No_Ijazah", targets: 4 },
-                { name: "No_Kursi", targets: 5 },
-                { name: "Registrasi", targets: 6 },
-                { name: "action_Registrasi", targets: 7, orderable: false },
-                { name: "action", targets: 8, orderable: false },
+                { name: "Prodi", targets: 3 },
+                { name: "No_Kursi", targets: 4 },
+                { name: "action_Registrasi", targets: 5, orderable: false },
+                { name: "action", targets: 6, orderable: false },
             ],
-            columns: [{ data: "no" }, { data: "nim" }, { data: "name" }, { data: "jurusan" }, { data: "noIjazah" }, { data: "noKursi" }, { data: "isRegis" }, { data: "Regis" }, { data: "action" }],
+            columns: [{ data: "no" }, { data: "nim" }, { data: "name" }, { data: "prodi" }, { data: "noKursi" }, { data: "Regis" }, { data: "action" }],
         });
 
         $(".filter").on("change", function () {
             filterNama = $("#filter_nama").val();
             filterNim = $("#filter_nim").val();
-            filterJurusan = $("#filter_jurusan").val();
+            filterProdi = $("#filter_prodi").val();
 
             table.ajax.reload(null, false);
         })
@@ -66,7 +64,7 @@
                         $("#id").val(id);
                         $("#nim").val(result.nim);
                         $("#nama").val(result.name);
-                        $("#jurusan").val(result.jurusan);
+                        $("#prodi").val(result.prodi);
                         $("#noIjazah").val(result.noIjazah);
                         $("#noKursi").val(result.noKursi);
                     }
@@ -200,7 +198,7 @@
             });
         });
 
-        $('.filter_jurusan').select2();
+        $('.filter_prodi').select2();
 
 
         $(document).on("click", ".btn-delete", function (e) {
