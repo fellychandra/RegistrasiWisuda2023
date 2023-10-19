@@ -22,7 +22,7 @@ router.get('/', async function (req, res) {
         $match: {
           isDeleted: false,
           isRegis: false,
-          jurusan : "JTI"
+          jurusan: "JTI"
         },
       },
     ]);
@@ -31,7 +31,7 @@ router.get('/', async function (req, res) {
         $match: {
           isDeleted: false,
           isRegis: false,
-          jurusan :"JTIN"
+          jurusan: "JTIN"
         },
       },
     ]);
@@ -41,7 +41,7 @@ router.get('/', async function (req, res) {
         $match: {
           isDeleted: false,
           isRegis: false,
-          jurusan : "AKTP"
+          jurusan: "AKTP"
         },
       },
     ]);
@@ -59,7 +59,7 @@ router.get('/', async function (req, res) {
         $match: {
           isDeleted: false,
           isRegis: true,
-          jurusan : "JTI"
+          jurusan: "JTI"
         },
       },
     ]);
@@ -68,7 +68,7 @@ router.get('/', async function (req, res) {
         $match: {
           isDeleted: false,
           isRegis: true,
-          jurusan :"JTIN"
+          jurusan: "JTIN"
         },
       },
     ]);
@@ -78,12 +78,30 @@ router.get('/', async function (req, res) {
         $match: {
           isDeleted: false,
           isRegis: true,
-          jurusan : "AKTP"
+          jurusan: "AKTP"
         },
       },
     ]);
 
-    
+    //orangtua
+    let countOrtuDone = await orangtuaModel.aggregate([
+      {
+        $match: {
+          isDeleted: false,
+          isRegis: false,
+        },
+      },
+    ]);
+    let countOrtuNot = await orangtuaModel.aggregate([
+      {
+        $match: {
+          isDeleted: false,
+          isRegis: false,
+        },
+      },
+    ]);
+
+
     res.render('dashboard/index', {
       mhsAll: countDocumentsMhs.length,
       mhsJti: countDocumentsMhsJti.length,
@@ -92,7 +110,9 @@ router.get('/', async function (req, res) {
       mhsAllDone: countDocumentsMhsDone.length,
       mhsJtiDone: countDocumentsMhsJtiDone.length,
       mhsJtinDone: countDocumentsMhsJtinDone.length,
-      mhsAktpDone: countDocumentsMhsAktpDone.length,
+      mhsAktpDone: countDocumentsMhsAktpDone.length, 
+      ortuAllDone: countOrtuDone.length,
+      ortuAllNot: countOrtuNot.length,
       title: "Halaman Registrasi",
       currentUrl: url,
     });

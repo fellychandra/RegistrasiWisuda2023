@@ -137,9 +137,28 @@ const index = async (req, res) => {
             return res.status(200).json(output);
         }
 
+        let countOrtuDone = await orangtuaModel.aggregate([
+            {
+                $match: {
+                    isDeleted: false,
+                    isRegis: false,
+                },
+            },
+        ]);
+        let countOrtuNot = await orangtuaModel.aggregate([
+            {
+                $match: {
+                    isDeleted: false,
+                    isRegis: false,
+                },
+            },
+        ]);
+
         const prodiList = await prodiModel.find();
         res.render("orangtua/belum/index", {
             title: "Belum Regis",
+            ortuAllDone: countOrtuDone.length,
+            ortuAllNot: countOrtuNot.length,
             prodis: prodiList,
             currentUrl: url,
         });

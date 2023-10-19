@@ -1,6 +1,6 @@
 <div class="page-body">
     <div class="container-xl">
-        <div class="h2 mb-1">Mahasiswa Unregister</div>
+        <div class="h2 mb-1">Mahasiswa Belum Registrasi</div>
         <div class="row row-deck row-cards mb-5">
             <div class="col-lg-3">
                 <div class="card">
@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <div class="h2 mb-1">Mahasiswa Register</div>
+        <div class="h2 mb-1">Mahasiswa Sudah Registrasi</div>
         <div class="row row-deck row-cards mb-5">
             <div class="col-lg-3">
                 <div class="card">
@@ -145,7 +145,42 @@
                 </div>
             </div>
         </div>
-
-
+        <div class="h2 mb-1">Orang tua</div>
+        <div class="row row-deck row-cards mb-5">
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="h3" style="font-weight: 400;">Orang tua belum registrasi</div>
+                        </div>
+                        <div class="h1 p-1 text-center align-center">                           
+                            <%= ortuAllNot %>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex">
+                            <a href="/orangtua/belum" class="btn btn-primary ms-auto">Lihat</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="h3" style="font-weight: 400;">Orang tua sudah registrasi</div>
+                        </div>
+                        <h1 class="p-1 text-center align-center font">
+                            <%= ortuAllDone %>
+                        </h1>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex">
+                            <a href="/orangtua/sudah" class="btn btn-primary ms-auto">Lihat</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
