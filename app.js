@@ -68,16 +68,16 @@ app.use('/import', webProtect, importwisudawan);
 
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  res.status(404).render('error', {
-    title: '404 Not Found',
-    message: 'Halaman yang Anda cari tidak ditemukan.'
-  });
-});
-
-// app.use(function (req, res, next) {
-//   next(createError(404));
+// app.use((req, res, next) => {
+//   res.status(404).render('error', {
+//     title: '404 Not Found',
+//     message: 'Halaman yang Anda cari tidak ditemukan.'
+//   });
 // });
+
+app.use(function (req, res, next) {
+  next(createError(404));
+});
 
 // error handler
 app.use(function (err, req, res, next) {
