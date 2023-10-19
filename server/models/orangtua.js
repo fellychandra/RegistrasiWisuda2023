@@ -14,7 +14,6 @@ const OrangtuaSchema = new mongoose.Schema(
         },
         noIjazah: {
             type: String,
-            unique: true,
         },
         prodi: {
             type: String,
