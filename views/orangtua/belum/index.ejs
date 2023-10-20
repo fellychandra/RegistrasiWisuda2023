@@ -17,6 +17,7 @@
                                             <!-- <div class="me-2">
                                                 <a href="/export/mahasiswa" class="btn btn-outline-azure"><i class="fa fa-solid fa-file-import me-2"></i> Export Data</a>
                                             </div> -->
+                                            <% if(jabatan !== "BAAK" && jabatan !== "DOKUM"){ %>
                                             <div class="me-2">
                                                 <a href="/import/orangtua" class="btn btn-outline-success"><i class="fa fa-solid fa-file-import me-2"></i>Import Data</a>
                                             </div>
@@ -25,6 +26,7 @@
                                                 data-bs-target="#modalOrtuTambah"><i class="fa fa-solid fa-plus me-2"></i>
                                                 Tambah</button>
                                             </div>
+                                            <% } %>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -53,7 +55,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>NIM</th>
+                                                        <!-- <th>NIM</th> -->
                                                         <th>Nama</th>
                                                         <th>Program Studi</th>
                                                         <th>No Kursi</th>
@@ -67,7 +69,6 @@
                                                             1.
                                                         </td>
                                                         <td>Felly Chandra</td>
-                                                        <td>2055301050</td>
                                                         <td>Teknik Informatika</td>
                                                         <td>felly20ti@mahasiswa.pcr.ac.id</td>
                                                         <td>True</td>

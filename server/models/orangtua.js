@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const OrangtuaSchema = new mongoose.Schema(
     {
-        nim: {
-            type: String,
-            unique: true,
-        },
+        // nim: {
+        //     type: String,
+        //     unique: true,
+        // },
         name: {
             type: String,
         },

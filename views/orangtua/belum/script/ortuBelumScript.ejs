@@ -23,17 +23,16 @@
             order: [[1, "asc"]],
             columnDefs: [
                 { name: "no", targets: 0, orderable: false },
-                { name: "NIM", targets: 1 },
-                { name: "Nama", targets: 2 },
-                { name: "Prodi", targets: 3 },
-                { name: "No_Kursi", targets: 4 },
-                { name: "action_Registrasi", targets: 5, orderable: false },
+                { name: "Nama", targets: 1 },
+                { name: "Prodi", targets: 2 },
+                { name: "No_Kursi", targets: 3 },
+                { name: "action_Registrasi", targets: 4, orderable: false },
                 {
-                    name: "action", targets: 6, orderable: false,
+                    name: "action", targets: 5, orderable: false,
                     visible: showActionColumn
                 },
             ],
-            columns: [{ data: "no" }, { data: "nim" }, { data: "name" }, { data: "prodi" }, { data: "noKursi" }, { data: "Regis" }, { data: "action" }],
+            columns: [{ data: "no" }, { data: "name" }, { data: "prodi" }, { data: "noKursi" }, { data: "Regis" }, { data: "action" }],
         });
 
         $(".filter").on("change", function () {

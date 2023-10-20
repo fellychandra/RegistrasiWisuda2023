@@ -9,7 +9,7 @@ const index = async (req, res) => {
         const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
         data.forEach(async (item) => {
-            const orangtua = new orangtuaModel({ nim: item.NIM, name: item.Nama_Mahasiswa, prodi: item.Program_Studi, noKursi: item.No_Kursi }); // Pastikan model Anda cocok
+            const orangtua = new orangtuaModel({ nim: item.NIM, name: item.Nama, prodi: item.Program_Studi, noKursi: item.No_Kursi }); // Pastikan model Anda cocok
             try {
                 await orangtua.save();
                 console.log(`Data orangtua ${orangtua.name} berhasil disimpan.`);
