@@ -88,7 +88,7 @@ router.get('/', async function (req, res) {
       {
         $match: {
           isDeleted: false,
-          isRegis: false,
+          isRegis: true,
         },
       },
     ]);
